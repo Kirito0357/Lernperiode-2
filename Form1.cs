@@ -695,8 +695,7 @@ namespace Elden_Ring
 
             comboBox7.Visible = true;
 
-            // Die Rüstungsteile werden direkt aus dem passenden Excel-Blatt gelesen,
-            // so muss man die rund 570 Namen nicht von Hand eintippen.
+            
             string blattName = RuestungsBlatt(comboBox6.Text);
 
             if (!File.Exists(excelDateiPfad) || blattName == "")
