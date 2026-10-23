@@ -30,8 +30,12 @@ namespace Elden_Ring
             comboBox4.Visible = false;
             comboBox5.Visible = false;
 
-            listBox1.Visible = true;
-            listBox2.Visible = true;
+            comboBox6.Visible = true;
+            comboBox7.Visible = false;
+
+            listBox1.Visible = false;
+            listBox2.Visible = false;
+            listBox3.Visible = false;
 
             listBox1.HorizontalScrollbar = true;
             listBox1.SelectionMode = SelectionMode.None;
@@ -47,7 +51,7 @@ namespace Elden_Ring
             comboBox5.SelectedIndexChanged += comboBox5_SelectedIndexChanged;
 
             // --------------------------------------------------
-            // Excel-Datei prüfen
+            // Excel-Datei prÃ¼fen
             // --------------------------------------------------
 
             if (!File.Exists(excelDateiPfad))
@@ -81,18 +85,18 @@ namespace Elden_Ring
                 "Krumme Grossschwerter",
                 "Katanas",
                 "Doppelklingen",
-                "Äxte",
-                "Grossäxte",
-                "Hämmer",
+                "Ã„xte",
+                "GrossÃ¤xte",
+                "HÃ¤mmer",
                 "Flegel",
-                "Kriegshämmer",
+                "KriegshÃ¤mmer",
                 "Gigantische Waffen",
                 "Speere",
                 "Grosse Speere",
                 "Hellebarden",
                 "Schnitter",
                 "Peitschen",
-                "Fäuste",
+                "FÃ¤uste",
                 "Krallen"
             });
 
@@ -101,6 +105,13 @@ namespace Elden_Ring
                 "Fernkampf",
                 "Katalysatoren"
             });
+            comboBox6.Items.AddRange(new string[]
+           {
+                "Kopfbedeckung",
+                "Brustschutz",
+                "armpanzerung",
+                "Beinschutz"
+           });
         }
 
         // ============================================================
@@ -143,7 +154,7 @@ namespace Elden_Ring
                         "Schwert der Getreuen", "Feines Adligenschwert", "Stockschwert",
                         "Kriegsfallenkralle", "Lazuli-Schimmersteinschwert",
                         "Carianisches Ritterschwert", "Kristallschwert",
-                        "Fäulniskristallschwert", "Miquella-Ritterschwert",
+                        "FÃ¤ulniskristallschwert", "Miquella-Ritterschwert",
                         "Ornamentales Schwert", "Goldenes Epitaphium",
                         "Schwert von St. Trina", "Eochaids Zierde",
                         "Schwert der geheimen Worte", "Schwert der Nacht und der flamme"
@@ -159,7 +170,7 @@ namespace Elden_Ring
                         "Flamberge", "Gargoile-Grossschwert", "Gargoile-Schwarzschwert",
                         "Unzertrennliches Schwert", "Milos-Schwert",
                         "Henkerschwert der Marais", "Ordovis'Grossschwert",
-                        "Alabasterfürstenschwert", "Schülereisen des Todes",
+                        "AlabasterfÃ¼rstenschwert", "SchÃ¼lereisen des Todes",
                         "Helphens Spitzturm", "Blasphemische Klinge",
                         "Grossschwert der Goldenen Ordnung", "Dunkelmondgrossschwert",
                         "Heiliges Reliktschwert"
@@ -169,11 +180,11 @@ namespace Elden_Ring
                 case "Riesenschwerter":
                     comboBox2.Items.AddRange(new string[]
                     {
-                        "Zweihänder", "Grossschwert", "Grossschwert des Bewachers",
+                        "ZweihÃ¤nder", "Grossschwert", "Grossschwert des Bewachers",
                         "Goldenes Trollschwert", "Trollritterschwert",
-                        "Königliches Grossschwert", "Grossschwert der Verpflanzung",
-                        "Trümmergrossschwert", "Grossschwert der Sternengeissel",
-                        "Grossschwert der Gottestöterin", "Malikeths schwarze Klinge"
+                        "KÃ¶nigliches Grossschwert", "Grossschwert der Verpflanzung",
+                        "TrÃ¼mmergrossschwert", "Grossschwert der Sternengeissel",
+                        "Grossschwert der GottestÃ¶terin", "Malikeths schwarze Klinge"
                     });
                     break;
 
@@ -181,7 +192,7 @@ namespace Elden_Ring
                     comboBox2.Items.AddRange(new string[]
                     {
                         "Rapier", "Panzerbrecher", "Adeligenpanzerbrecher",
-                        "Schwert des Reinfäule-Ritters", "Rogiers Rapier",
+                        "Schwert des ReinfÃ¤ule-Ritters", "Rogiers Rapier",
                         "Ameisenstachel-Rapier", "Eisnadel"
                     });
                     break;
@@ -189,16 +200,16 @@ namespace Elden_Ring
                 case "Schwere Stossschwerter":
                     comboBox2.Items.AddRange(new string[]
                     {
-                        "Grosser Degen", "Götterskalpnadel", "Blutige Helix",
-                        "Felsklinge des Drachenkönigs"
+                        "Grosser Degen", "GÃ¶tterskalpnadel", "Blutige Helix",
+                        "Felsklinge des DrachenkÃ¶nigs"
                     });
                     break;
 
                 case "Krummschwerter":
                     comboBox2.Items.AddRange(new string[]
                     {
-                        "Krummsäbel", "Falchion", "Shamshir", "Grossmesser",
-                        "Banditenkrummschwert", "Shotel", "Plünderungskrummschwert",
+                        "KrummsÃ¤bel", "Falchion", "Shamshir", "Grossmesser",
+                        "Banditenkrummschwert", "Shotel", "PlÃ¼nderungskrummschwert",
                         "Mantisklinge", "Bestienkrummschwert", "Fliessendes Krummschwert",
                         "Schlangengottkrummschwert", "Magmaklinge",
                         "Fliessendes Noxschwert", "Schwinge von Astel", "Shotel der Eklipse"
@@ -208,9 +219,9 @@ namespace Elden_Ring
                 case "Krumme Grossschwerter":
                     comboBox2.Items.AddRange(new string[]
                     {
-                        "Reitergeissel", "Malbeil", "Mönchsflammenschwert",
+                        "Reitergeissel", "Malbeil", "MÃ¶nchsflammenschwert",
                         "Beil des Bestienmenschen", "Bluthundreisszahn",
-                        "Onyxfürstengrossschwert", "Zamorkrummschwert",
+                        "OnyxfÃ¼rstengrossschwert", "Zamorkrummschwert",
                         "Magmalindwurm-Schuppenschwert", "Morgotts verfluchtes Schwert"
                     });
                     break;
@@ -219,7 +230,7 @@ namespace Elden_Ring
                     comboBox2.Items.AddRange(new string[]
                     {
                         "Uchigatana", "Nagakiba", "Schlangenknochenklinge",
-                        "Meteorklinge", "Mondschleier", "Blutige Ströme",
+                        "Meteorklinge", "Mondschleier", "Blutige StrÃ¶me",
                         "Drachenschuppenklinge", "Malenias Hand"
                     });
                     break;
@@ -227,13 +238,13 @@ namespace Elden_Ring
                 case "Doppelklingen":
                     comboBox2.Items.AddRange(new string[]
                     {
-                        "Doppelklinge", "Ritter-Zwillingsschwerter", "Götterskalphäuter",
+                        "Doppelklinge", "Ritter-Zwillingsschwerter", "GÃ¶tterskalphÃ¤uter",
                         "Gargoyle-Doppelklinge", "Gargoyle-Doppelschwarzklinge",
                         "Eleonoras Stangenwaffe"
                     });
                     break;
 
-                case "Äxte":
+                case "Ã„xte":
                     comboBox2.Items.AddRange(new string[]
                     {
                         "Handaxt", "Gespaltene Sichel", "Streitaxt", "Verformte Axt",
@@ -243,22 +254,22 @@ namespace Elden_Ring
                     });
                     break;
 
-                case "Grossäxte":
+                case "GrossÃ¤xte":
                     comboBox2.Items.AddRange(new string[]
                     {
                         "Grossaxt", "Halbmondaxt", "Langstielbeil", "Henkergrossaxt",
-                        "Maltöter-Grossbeil", "Rostiger Anker", "Fleischermesser",
+                        "MaltÃ¶ter-Grossbeil", "Rostiger Anker", "Fleischermesser",
                         "Gargoyle-Grossaxt", "Gargoyle-Schwarzakt",
                         "Schwingengrosshorn", "Godricks Axt"
                     });
                     break;
 
-                case "Hämmer":
+                case "HÃ¤mmer":
                     comboBox2.Items.AddRange(new string[]
                     {
                         "Keule", "Geschwungene Keule", "Stachelkeule", "Steinkeule",
                         "Streitkolben", "Morgenstern", "Spaltaxt", "Hammer",
-                        "Mönchsflammenstreitkolben", "Varrés Blumenstrauss",
+                        "MÃ¶nchsflammenstreitkolben", "VarrÃ©s Blumenstrauss",
                         "Horn des Gesandten", "Fliessender Noxhammer",
                         "Beringter Finger", "Zepter des Allwissenden"
                     });
@@ -268,18 +279,18 @@ namespace Elden_Ring
                     comboBox2.Items.AddRange(new string[]
                     {
                         "Bastardsterne", "Flegel", "Flegel der Dunkelkavallerie",
-                        "Kettenflegel", "Köpfe der Familie"
+                        "Kettenflegel", "KÃ¶pfe der Familie"
                     });
                     break;
 
-                case "Kriegshämmer":
+                case "KriegshÃ¤mmer":
                     comboBox2.Items.AddRange(new string[]
                     {
                         "Grosse Keule", "Geschwungene Grosskeule", "Grossstreitkolben",
                         "Spitzhacke", "Ziegelhammer", "Streithammer",
-                        "Fäulnisstreithammer", "Zelebrantenschädel", "Grosssterne",
+                        "FÃ¤ulnisstreithammer", "ZelebrantenschÃ¤del", "Grosssterne",
                         "Grosshornhammer", "Langhorn des Gesandten",
-                        "Schädelkerzenständer", "Bestienklauengrosshammer",
+                        "SchÃ¤delkerzenstÃ¤nder", "Bestienklauengrosshammer",
                         "Verschlingerzepter"
                     });
                     break;
@@ -287,10 +298,10 @@ namespace Elden_Ring
                 case "Gigantische Waffen":
                     comboBox2.Items.AddRange(new string[]
                     {
-                        "Duellantengrossaxt", "Fäulnisgrossaxt", "Golemhellebarde",
-                        "Reisenbrecher", "Infernaler Prälatenstab", "Grosskeule",
+                        "Duellantengrossaxt", "FÃ¤ulnisgrossaxt", "Golemhellebarde",
+                        "Reisenbrecher", "Infernaler PrÃ¤latenstab", "Grosskeule",
                         "Trollhammer", "Grosse Drachenkralle", "Stab des Bewachers",
-                        "Stab des Avatars", "Fäulnisstab", "Grosshorn des Gesandten",
+                        "Stab des Avatars", "FÃ¤ulnisstab", "Grosshorn des Gesandten",
                         "Ghizas Rad", "Sternenfallbestienkiefer", "Godfreys Axt"
                     });
                     break;
@@ -302,7 +313,7 @@ namespace Elden_Ring
                         "Stachelspeer", "Kreuz-Naginata", "Tonmenschenharpune",
                         "Zelebrantenrippenharke", "Stabfackel",
                         "Girandole des Inquisitors", "Kristallspeer",
-                        "Fäulniskristallspeer", "Reinfäule-Speer",
+                        "FÃ¤ulniskristallspeer", "ReinfÃ¤ule-Speer",
                         "Todesritualspeer", "Blitz von Gransax"
                     });
                     break;
@@ -310,7 +321,7 @@ namespace Elden_Ring
                 case "Grosse Speere":
                     comboBox2.Items.AddRange(new string[]
                     {
-                        "Lanze", "Baumspeer", "Schlangenjäger", "Silurias Baum",
+                        "Lanze", "Baumspeer", "SchlangenjÃ¤ger", "Silurias Baum",
                         "Vykes Kriegsspeer", "Mohgwyns heiliger Speer"
                     });
                     break;
@@ -320,7 +331,7 @@ namespace Elden_Ring
                     {
                         "Hellebarde", "Hellebarde der Exilritter", "Falkenschnabel",
                         "Gleve", "Shotel der Niederen Soldaten",
-                        "Säge der Niederen Soldaten", "Wächter-Schwertspeer",
+                        "SÃ¤ge der Niederen Soldaten", "WÃ¤chter-Schwertspeer",
                         "Gargoyle-Hellebarde", "Gargoyle-Schwarzhellebarde",
                         "Gleve der Dunkelkavallerie", "Seuchengleve",
                         "Wellenhellebarde", "Goldene Hellebarde", "Drachenhellebarde",
@@ -338,17 +349,17 @@ namespace Elden_Ring
                 case "Peitschen":
                     comboBox2.Items.AddRange(new string[]
                     {
-                        "Peitsche", "Dornenpeitsche", "Urumi", "Hoslows Blütenpeitsche",
+                        "Peitsche", "Dornenpeitsche", "Urumi", "Hoslows BlÃ¼tenpeitsche",
                         "Magmapeitschenleuchter", "Roter Riesenhaarzopf"
                     });
                     break;
 
-                case "Fäuste":
+                case "FÃ¤uste":
                     comboBox2.Items.AddRange(new string[]
                     {
                         "Caestus", "Stachelcaestus", "Katar", "Eisenkugel",
                         "Sternfaust", "Greifende Knochenhand", "Veteranenprothese",
-                        "Verschlüsseltes Pata", "Verpflanzter Drache"
+                        "VerschlÃ¼sseltes Pata", "Verpflanzter Drache"
                     });
                     break;
 
@@ -377,6 +388,7 @@ namespace Elden_Ring
 
             // Nahkampf-Waffen werden in listBox1 ausgegeben
             LadeWaffeAusExcel(waffe, listBox1);
+            listBox1.Visible = true;
         }
 
         private void LadeWaffeAusExcel(string waffe, ListBox zielListBox)
@@ -398,7 +410,7 @@ namespace Elden_Ring
                 {
                     foreach (var blatt in workbook.Worksheets)
                     {
-                        // Prüfen, ob es sich um ein Waffenblatt handelt.
+                        // PrÃ¼fen, ob es sich um ein Waffenblatt handelt.
                         string kopf = blatt.Cell(3, 1).GetString().Trim();
 
                         if (!string.Equals(kopf, "Waffe", StringComparison.OrdinalIgnoreCase))
@@ -422,7 +434,7 @@ namespace Elden_Ring
                             zielListBox.Items.Add("Waffe: " + name);
                             zielListBox.Items.Add("================================");
 
-                          
+
                             for (int spalte = 2; spalte <= 17; spalte++)
                             {
                                 string bezeichnung = blatt.Cell(3, spalte).GetString().Trim();
@@ -444,7 +456,7 @@ namespace Elden_Ring
                     }
                 }
 
-                zielListBox.Items.Add("Keine Daten gefunden für: " + waffe);
+                zielListBox.Items.Add("Keine Daten gefunden fÃ¼r: " + waffe);
             }
             catch (Exception ex)
             {
@@ -485,10 +497,10 @@ namespace Elden_Ring
             {
                 comboBox4.Items.AddRange(new string[]
                 {
-                    "Leichte Bögen",
-                    "Bögen",
-                    "Grossbögen",
-                    "Armbrüste",
+                    "Leichte BÃ¶gen",
+                    "BÃ¶gen",
+                    "GrossbÃ¶gen",
+                    "ArmbrÃ¼ste",
                     "Ballisten"
                 });
             }
@@ -496,7 +508,7 @@ namespace Elden_Ring
             {
                 comboBox4.Items.AddRange(new string[]
                 {
-                    "Schimmersteinstäbe",
+                    "SchimmersteinstÃ¤be",
                     "Heilige Siegel"
                 });
             }
@@ -519,7 +531,7 @@ namespace Elden_Ring
 
             switch (comboBox4.Text)
             {
-                case "Leichte Bögen":
+                case "Leichte BÃ¶gen":
                     comboBox5.Items.AddRange(new string[]
                     {
                         "Kurzbogen", "Kompositbogen", "Rotholzkurzbogen",
@@ -527,7 +539,7 @@ namespace Elden_Ring
                     });
                     break;
 
-                case "Bögen":
+                case "BÃ¶gen":
                     comboBox5.Items.AddRange(new string[]
                     {
                         "Langbogen", "Bogen der Albinaurics", "Schwarzer Bogen",
@@ -536,19 +548,19 @@ namespace Elden_Ring
                     });
                     break;
 
-                case "Grossbögen":
+                case "GrossbÃ¶gen":
                     comboBox5.Items.AddRange(new string[]
                     {
                         "Grossbogen", "Golemgrossbogen", "Erdenbaum-Grossbogen",
-                        "Löwengrossbogen"
+                        "LÃ¶wengrossbogen"
                     });
                     break;
 
-                case "Armbrüste":
+                case "ArmbrÃ¼ste":
                     comboBox5.Items.AddRange(new string[]
                     {
                         "Soldatenarmbrust", "Leichte Armbrust", "Schwere Armbrust",
-                        "Arbalest", "Crepus' Schwarzschlüsselarmbrust",
+                        "Arbalest", "Crepus' SchwarzschlÃ¼sselarmbrust",
                         "Flaschenzugarmbrust", "Vollmondarmbrust"
                     });
                     break;
@@ -556,21 +568,21 @@ namespace Elden_Ring
                 case "Ballisten":
                     comboBox5.Items.AddRange(new string[]
                     {
-                        "Handballiste", "Gefässkanone"
+                        "Handballiste", "GefÃ¤sskanone"
                     });
                     break;
 
-                case "Schimmersteinstäbe":
+                case "SchimmersteinstÃ¤be":
                     comboBox5.Items.AddRange(new string[]
                     {
                         "Astrologenstab", "Schimmersteinstab",
-                        "Akademie-Schimmersteinstab", "Gräberstab",
-                        "Stab der Halbmenschenkönigin", "Azurner Schimmersteinstab",
+                        "Akademie-Schimmersteinstab", "GrÃ¤berstab",
+                        "Stab der HalbmenschenkÃ¶nigin", "Azurner Schimmersteinstab",
                         "Lusats Schimmersteinstab", "Carianischer Schimmersteinstab",
                         "Carianischer Schimmerklingenstab",
-                        "Carianisches Königliches Zepter", "Albinauric-Stab",
+                        "Carianisches KÃ¶nigliches Zepter", "Albinauric-Stab",
                         "Stab des Verlusts", "Schimmersteinstab vom Gelmir",
-                        "Kristallstab", "Fäulniskristallstab", "Meteoritenstab",
+                        "Kristallstab", "FÃ¤ulniskristallstab", "Meteoritenstab",
                         "Stab der Schuldigen", "Stab des Topesprinzen"
                     });
                     break;
@@ -580,7 +592,7 @@ namespace Elden_Ring
                     {
                         "Finger-Siegel", "Siegel des Erdenbaums",
                         "Siegel der Goldenen Ordnung", "Schottersteinsiegel",
-                        "Siegel des Riesen", "Siegel des Gottestöters",
+                        "Siegel des Riesen", "Siegel des GottestÃ¶ters",
                         "Klauenzeichen-Siegel", "Siegel der Rasenden Flamme",
                         "Siegel der Drachenkommunion"
                     });
@@ -603,11 +615,8 @@ namespace Elden_Ring
 
             // Fernkampf/Katalysatoren werden in listBox2 ausgegeben
             LadeWaffeAusExcel(waffe, listBox2);
+            listBox2.Visible = true;
         }
-
-        // ============================================================
-        // HILFSMETHODE
-        // ============================================================
 
         private static string NormalisiereName(string name)
         {
@@ -617,14 +626,10 @@ namespace Elden_Ring
             return name
                 .Trim()
                 .ToLowerInvariant()
-                .Replace("ß", "ss")
+                .Replace("ÃŸ", "ss")
                 .Replace(" ", "")
                 .Replace("-", "");
         }
-
-        // ============================================================
-        // LEERE EVENTHANDLER
-        // ============================================================
 
         private void label1_Click(object sender, EventArgs e)
         {
@@ -645,6 +650,11 @@ namespace Elden_Ring
         private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void comboBox6_SelectedIndexChanged(object sender, EventArgs e)
+        {
+             
         }
     }
 }
