@@ -10,7 +10,7 @@ namespace Elden_Ring
         private readonly string excelDateiPfad =
             Path.Combine(
                 AppContext.BaseDirectory,
-                "Elden_Ring_Waffen_Datenbank_aktualisiert2.xlsx"
+                "Elden_Ring_Waffen_Ruestungen_Datenbank.xlsx"
             );
 
         public Form1()
@@ -43,12 +43,22 @@ namespace Elden_Ring
             listBox2.HorizontalScrollbar = true;
             listBox2.SelectionMode = SelectionMode.None;
 
+            listBox3.HorizontalScrollbar = true;
+            listBox3.SelectionMode = SelectionMode.None;
+
             // Eventhandler
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             comboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
             comboBox3.SelectedIndexChanged += comboBox3_SelectedIndexChanged;
             comboBox4.SelectedIndexChanged += comboBox4_SelectedIndexChanged;
             comboBox5.SelectedIndexChanged += comboBox5_SelectedIndexChanged;
+
+            // Zuerst entfernen, falls der Designer den Handler schon verbunden hat,
+            // damit er nicht doppelt ausgelöst wird.
+            comboBox6.SelectedIndexChanged -= comboBox6_SelectedIndexChanged;
+            comboBox6.SelectedIndexChanged += comboBox6_SelectedIndexChanged;
+            comboBox7.SelectedIndexChanged -= comboBox7_SelectedIndexChanged;
+            comboBox7.SelectedIndexChanged += comboBox7_SelectedIndexChanged;
 
             // --------------------------------------------------
             // Excel-Datei prüfen
@@ -109,7 +119,7 @@ namespace Elden_Ring
            {
                 "Kopfbedeckung",
                 "Brustschutz",
-                "armpanzerung",
+                "Armpanzerung",
                 "Beinschutz"
            });
         }
@@ -652,9 +662,162 @@ namespace Elden_Ring
 
         }
 
+        // ============================================================
+        // RÜSTUNGEN
+        // ============================================================
+
+        // Ordnet den Einträgen in comboBox6 das passende Blatt in der Excel-Datei zu.
+        private static string RuestungsBlatt(string kategorie)
+        {
+            switch (kategorie)
+            {
+                case "Kopfbedeckung": return "Kopfbedeckungen";
+                case "Brustschutz": return "Torsos";
+                case "Armpanzerung": return "Armschützer";
+                case "Beinschutz": return "Beinschützer";
+                default: return "";
+            }
+        }
+
         private void comboBox6_SelectedIndexChanged(object sender, EventArgs e)
         {
-             
+            comboBox7.Items.Clear();
+            comboBox7.SelectedIndex = -1;
+            comboBox7.Text = "";
+
+            listBox3.Items.Clear();
+
+            if (comboBox6.SelectedIndex == -1)
+            {
+                comboBox7.Visible = false;
+                return;
+            }
+
+            comboBox7.Visible = true;
+
+            // Die Rüstungsteile werden direkt aus dem passenden Excel-Blatt gelesen,
+            // so muss man die rund 570 Namen nicht von Hand eintippen.
+            string blattName = RuestungsBlatt(comboBox6.Text);
+
+            if (!File.Exists(excelDateiPfad) || blattName == "")
+                return;
+
+            try
+            {
+                using (var workbook = new XLWorkbook(excelDateiPfad))
+                {
+                    if (!workbook.TryGetWorksheet(blattName, out IXLWorksheet blatt))
+                        return;
+
+                    int letzteZeile = blatt.LastRowUsed()?.RowNumber() ?? 3;
+
+                    for (int zeile = 4; zeile <= letzteZeile; zeile++)
+                    {
+                        string name = blatt.Cell(zeile, 1).GetString().Trim();
+
+                        if (!string.IsNullOrWhiteSpace(name))
+                            comboBox7.Items.Add(name);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Fehler beim Lesen der Excel-Datei:\n\n" + ex.Message,
+                    "Fehler",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+        }
+
+        private void comboBox7_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            listBox3.Items.Clear();
+
+            if (comboBox7.SelectedIndex == -1)
+                return;
+
+            string ruestung = comboBox7.SelectedItem?.ToString() ?? "";
+
+            // Rüstungen werden in listBox3 ausgegeben
+            LadeRuestungAusExcel(ruestung, RuestungsBlatt(comboBox6.Text), listBox3);
+            listBox3.Visible = true;
+        }
+
+        private void LadeRuestungAusExcel(string ruestung, string blattName, ListBox zielListBox)
+        {
+            zielListBox.Items.Clear();
+
+            if (!File.Exists(excelDateiPfad))
+            {
+                zielListBox.Items.Add("Excel-Datei wurde nicht gefunden.");
+                zielListBox.Items.Add(""); 
+                zielListBox.Items.Add("Gesuchter Pfad:");
+                zielListBox.Items.Add(excelDateiPfad);
+                return;
+            }
+
+            try
+            {
+                using (var workbook = new XLWorkbook(excelDateiPfad))
+                {
+                    if (!workbook.TryGetWorksheet(blattName, out IXLWorksheet blatt))
+                    {
+                        zielListBox.Items.Add("Blatt nicht gefunden: " + blattName);
+                        return;
+                    }
+
+                    int letzteZeile = blatt.LastRowUsed()?.RowNumber() ?? 3;
+                    int letzteSpalte = blatt.Row(3).LastCellUsed()?.Address.ColumnNumber ?? 15;
+
+                    for (int zeile = 4; zeile <= letzteZeile; zeile++)
+                    {
+                        string name = blatt.Cell(zeile, 1).GetString().Trim();
+
+                        if (NormalisiereName(name) != NormalisiereName(ruestung))
+                        {
+                            continue;
+                        }
+
+                        // Name des Rüstungsteils
+                        zielListBox.Items.Add("================================");
+                        zielListBox.Items.Add(blattName + ": " + name);
+                        zielListBox.Items.Add("================================");
+
+                        for (int spalte = 2; spalte <= letzteSpalte; spalte++)
+                        {
+                            string bezeichnung = blatt.Cell(3, spalte).GetString().Trim();
+                            string wert = blatt.Cell(zeile, spalte).GetFormattedString();
+
+                            if (string.IsNullOrWhiteSpace(bezeichnung))
+                                continue;
+
+                            if (string.IsNullOrWhiteSpace(wert))
+                                wert = "Keine Angabe";
+
+                            zielListBox.Items.Add(
+                                bezeichnung + ": " + wert
+                            );
+                        }
+
+                        return;
+                    }
+                }
+
+                zielListBox.Items.Add("Keine Daten gefunden für: " + ruestung);
+            }
+            catch (Exception ex)
+            {
+                zielListBox.Items.Clear();
+                zielListBox.Items.Add("Fehler beim Lesen der Excel-Datei:");
+                zielListBox.Items.Add("");
+                zielListBox.Items.Add(ex.Message);
+            }
+        }
+
+        private void listBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
         }
     }
 }
