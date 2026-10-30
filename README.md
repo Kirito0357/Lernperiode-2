@@ -14,7 +14,7 @@
 
 ## 30.10.26
 - [x] Hausaufgabe: Alle Talismane in die Excel Datei einfügen
-- [ ] Alle Spells in die Excel Datei einfügen
-- [ ] Auswahl des ungefähren gewichts der Ausrüstung 
+- [x] Alle Spells in die Excel Datei einfügen
+- [x] Auswahl des ungefähren gewichts der Ausrüstung 
 - [ ] Alle Fertigkeiten (Ashes of war) der Waffen einfügen
 - [ ] Fotos hinzufügen (screenshots von mir)
