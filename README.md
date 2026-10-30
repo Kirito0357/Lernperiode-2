@@ -13,7 +13,7 @@
 - Ich habe heute alle Rüstungsteile im Game mit ihren Werten in die Excel Datei gelegt die mit meinem Programm verbunden ist. Dazu habe ich leichte Änderungen an dem Layout gemacht, was die listBoxen zuerst invisible macht und sobald was in der jeweilig vorherigen comboBox ausgewählt wurde visible macht.
 
 ## 30.10.26
-- [ ] Hausaufgabe: Alle Talismane in die Excel Datei einfügen
+- [x] Hausaufgabe: Alle Talismane in die Excel Datei einfügen
 - [ ] Alle Spells in die Excel Datei einfügen
 - [ ] Auswahl des ungefähren gewichts der Ausrüstung 
 - [ ] Alle Fertigkeiten (Ashes of war) der Waffen einfügen
