@@ -19,4 +19,11 @@
 - [x] Alle Fertigkeiten (Ashes of war) der Waffen einfügen
 - [ ] Fotos hinzufügen (screenshots von mir)
 - Heute habe ich die ganzen spells in die Excel Datei eingefügt und eine ListBox die das addierte Gewicht der Ausrüstung herausgibt.
-  Dazu habe ich noch 3 weitere ListBoxen eingefügt um ein ganzes Rüstungsset zusammenzustellen. Ausserdem habe ich die fehlenden Fertigkeiten der Waffen eingefügt.
+  Dazu habe ich noch 3 weitere ListBoxen eingefügt um ein ganzes Rüstungsset zusammenzustellen. Ausserdem habe ich die fehlenden Fertigkeiten der Waffen eingefügt. Und daher dass ich einen wichtigen Teil meines Codes mit Claude gemacht habe, habe ich mich informiert wie dieser Code eigentlich genau funktioniert, da ich nicht einfach ein Programm machen kann bei dem ich nicht verstehe was im Code passiert.
+
+## 06.11.26
+- [ ] Fotos Hinzufügen
+- [ ] Stats und Einfluss der Stats einfügen
+- [ ] Design ändern
+- [ ] Code optimieren
+- [ ] Code Studieren?
