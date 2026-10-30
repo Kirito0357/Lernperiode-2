@@ -1,5 +1,6 @@
 using ClosedXML.Excel;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
@@ -10,8 +11,12 @@ namespace Elden_Ring
         private readonly string excelDateiPfad =
             Path.Combine(
                 AppContext.BaseDirectory,
-                "Elden_Ring_Waffen_Ruestungen_Datenbank.xlsx"
+                "Waffen_Datenbank Offiziell.xlsx"
             );
+
+        // Merkt sich pro Rüstungsblatt das ausgewählte Teil (Kopf, Torso, Arme, Beine)
+        private readonly Dictionary<string, string> gewaehlteRuestung =
+            new Dictionary<string, string>();
 
         public Form1()
         {
@@ -35,7 +40,11 @@ namespace Elden_Ring
 
             listBox1.Visible = false;
             listBox2.Visible = false;
-            listBox3.Visible = false;
+            // Die vier Rüstungs-ListBoxen sind immer sichtbar (ganzes Set)
+            listBox3.Visible = true;
+            listBox5.Visible = true;
+            listBox6.Visible = true;
+            listBox7.Visible = true;
 
             listBox1.HorizontalScrollbar = true;
             listBox1.SelectionMode = SelectionMode.None;
@@ -46,15 +55,23 @@ namespace Elden_Ring
             listBox3.HorizontalScrollbar = true;
             listBox3.SelectionMode = SelectionMode.None;
 
-            // Eventhandler
+            listBox4.HorizontalScrollbar = true;
+            listBox4.SelectionMode = SelectionMode.None;
+
+            listBox5.HorizontalScrollbar = true;
+            listBox5.SelectionMode = SelectionMode.None;
+
+            listBox6.HorizontalScrollbar = true;
+            listBox6.SelectionMode = SelectionMode.None;
+
+            listBox7.HorizontalScrollbar = true;
+            listBox7.SelectionMode = SelectionMode.None;
+
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             comboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
             comboBox3.SelectedIndexChanged += comboBox3_SelectedIndexChanged;
             comboBox4.SelectedIndexChanged += comboBox4_SelectedIndexChanged;
             comboBox5.SelectedIndexChanged += comboBox5_SelectedIndexChanged;
-
-            // Zuerst entfernen, falls der Designer den Handler schon verbunden hat,
-            // damit er nicht doppelt ausgelöst wird.
             comboBox6.SelectedIndexChanged -= comboBox6_SelectedIndexChanged;
             comboBox6.SelectedIndexChanged += comboBox6_SelectedIndexChanged;
             comboBox7.SelectedIndexChanged -= comboBox7_SelectedIndexChanged;
@@ -122,6 +139,14 @@ namespace Elden_Ring
                 "Armpanzerung",
                 "Beinschutz"
            });
+
+            // Leere Rüstungs-ListBoxen beschriften
+            ZeigeLeereRuestung("Kopfbedeckungen");
+            ZeigeLeereRuestung("Torsos");
+            ZeigeLeereRuestung("Armschützer");
+            ZeigeLeereRuestung("Beinschützer");
+
+            AktualisiereGesamtgewicht();
         }
 
         // ============================================================
@@ -135,6 +160,7 @@ namespace Elden_Ring
             comboBox2.Text = "";
 
             listBox1.Items.Clear();
+            AktualisiereGesamtgewicht();
 
             if (comboBox1.SelectedIndex == -1)
             {
@@ -392,13 +418,17 @@ namespace Elden_Ring
             listBox1.Items.Clear();
 
             if (comboBox2.SelectedIndex == -1)
+            {
+                AktualisiereGesamtgewicht();
                 return;
+            }
 
             string waffe = comboBox2.SelectedItem?.ToString() ?? "";
 
-            // Nahkampf-Waffen werden in listBox1 ausgegeben
             LadeWaffeAusExcel(waffe, listBox1);
             listBox1.Visible = true;
+
+            AktualisiereGesamtgewicht();
         }
 
         private void LadeWaffeAusExcel(string waffe, ListBox zielListBox)
@@ -420,7 +450,6 @@ namespace Elden_Ring
                 {
                     foreach (var blatt in workbook.Worksheets)
                     {
-                        // Prüfen, ob es sich um ein Waffenblatt handelt.
                         string kopf = blatt.Cell(3, 1).GetString().Trim();
 
                         if (!string.Equals(kopf, "Waffe", StringComparison.OrdinalIgnoreCase))
@@ -444,6 +473,21 @@ namespace Elden_Ring
                             zielListBox.Items.Add("Waffe: " + name);
                             zielListBox.Items.Add("================================");
 
+                            // Kriegsasche direkt unter dem Namen anzeigen
+                            for (int spalte = 2; spalte <= 17; spalte++)
+                            {
+                                if (blatt.Cell(3, spalte).GetString().Trim() == "Kriegsasche")
+                                {
+                                    string asche = blatt.Cell(zeile, spalte).GetString().Trim();
+
+                                    if (string.IsNullOrWhiteSpace(asche))
+                                        asche = "Keine Angabe";
+
+                                    zielListBox.Items.Add("Kriegsasche: " + asche);
+                                    zielListBox.Items.Add("--------------------------------");
+                                    break;
+                                }
+                            }
 
                             for (int spalte = 2; spalte <= 17; spalte++)
                             {
@@ -451,6 +495,10 @@ namespace Elden_Ring
                                 string wert = blatt.Cell(zeile, spalte).GetFormattedString();
 
                                 if (string.IsNullOrWhiteSpace(bezeichnung))
+                                    continue;
+
+                                // Kriegsasche wurde oben schon ausgegeben
+                                if (bezeichnung == "Kriegsasche")
                                     continue;
 
                                 if (string.IsNullOrWhiteSpace(wert))
@@ -494,6 +542,7 @@ namespace Elden_Ring
 
             comboBox5.Visible = false;
             listBox2.Items.Clear();
+            AktualisiereGesamtgewicht();
 
             if (comboBox3.SelectedIndex == -1)
             {
@@ -530,6 +579,7 @@ namespace Elden_Ring
             comboBox5.SelectedIndex = -1;
             comboBox5.Text = "";
             listBox2.Items.Clear();
+            AktualisiereGesamtgewicht();
 
             if (comboBox4.SelectedIndex == -1)
             {
@@ -619,13 +669,18 @@ namespace Elden_Ring
             listBox2.Items.Clear();
 
             if (comboBox5.SelectedIndex == -1)
+            {
+                AktualisiereGesamtgewicht();
                 return;
+            }
 
             string waffe = comboBox5.SelectedItem?.ToString() ?? "";
 
             // Fernkampf/Katalysatoren werden in listBox2 ausgegeben
             LadeWaffeAusExcel(waffe, listBox2);
             listBox2.Visible = true;
+
+            AktualisiereGesamtgewicht();
         }
 
         private static string NormalisiereName(string name)
@@ -685,8 +740,6 @@ namespace Elden_Ring
             comboBox7.SelectedIndex = -1;
             comboBox7.Text = "";
 
-            listBox3.Items.Clear();
-
             if (comboBox6.SelectedIndex == -1)
             {
                 comboBox7.Visible = false;
@@ -695,7 +748,7 @@ namespace Elden_Ring
 
             comboBox7.Visible = true;
 
-            
+
             string blattName = RuestungsBlatt(comboBox6.Text);
 
             if (!File.Exists(excelDateiPfad) || blattName == "")
@@ -718,6 +771,13 @@ namespace Elden_Ring
                             comboBox7.Items.Add(name);
                     }
                 }
+
+                // Wenn für diese Kategorie schon ein Teil gewählt war, wieder anzeigen
+                if (gewaehlteRuestung.TryGetValue(blattName, out string? gemerkt) &&
+                    comboBox7.Items.Contains(gemerkt))
+                {
+                    comboBox7.SelectedItem = gemerkt;
+                }
             }
             catch (Exception ex)
             {
@@ -732,16 +792,26 @@ namespace Elden_Ring
 
         private void comboBox7_SelectedIndexChanged(object sender, EventArgs e)
         {
-            listBox3.Items.Clear();
-
             if (comboBox7.SelectedIndex == -1)
                 return;
 
             string ruestung = comboBox7.SelectedItem?.ToString() ?? "";
+            string blattName = RuestungsBlatt(comboBox6.Text);
 
-            // Rüstungen werden in listBox3 ausgegeben
-            LadeRuestungAusExcel(ruestung, RuestungsBlatt(comboBox6.Text), listBox3);
-            listBox3.Visible = true;
+            ListBox? ziel = ListBoxFuerRuestung(blattName);
+
+            if (ziel == null)
+                return;
+
+            // Jedes Rüstungsteil hat seine eigene ListBox:
+            // Kopf = listBox3, Brust = listBox5, Arme = listBox6, Beine = listBox7
+            LadeRuestungAusExcel(ruestung, blattName, ziel);
+
+            // Teil für diese Kategorie merken und Gesamtgewicht neu berechnen
+            if (blattName != "")
+                gewaehlteRuestung[blattName] = ruestung;
+
+            AktualisiereGesamtgewicht();
         }
 
         private void LadeRuestungAusExcel(string ruestung, string blattName, ListBox zielListBox)
@@ -751,7 +821,7 @@ namespace Elden_Ring
             if (!File.Exists(excelDateiPfad))
             {
                 zielListBox.Items.Add("Excel-Datei wurde nicht gefunden.");
-                zielListBox.Items.Add(""); 
+                zielListBox.Items.Add("");
                 zielListBox.Items.Add("Gesuchter Pfad:");
                 zielListBox.Items.Add(excelDateiPfad);
                 return;
@@ -817,6 +887,176 @@ namespace Elden_Ring
 
         private void listBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
+        }
+
+        // ============================================================
+        // RÜSTUNGS-SET (listBox3, listBox5, listBox6, listBox7)
+        // ============================================================
+
+        // Gibt die ListBox zurück, in der ein Rüstungsblatt angezeigt wird.
+        private ListBox? ListBoxFuerRuestung(string blattName)
+        {
+            switch (blattName)
+            {
+                case "Kopfbedeckungen": return listBox3;
+                case "Torsos": return listBox5;
+                case "Armschützer": return listBox6;
+                case "Beinschützer": return listBox7;
+                default: return null;
+            }
+        }
+
+        // Schreibt einen Platzhalter in die ListBox eines Rüstungsteils.
+        private void ZeigeLeereRuestung(string blattName)
+        {
+            ListBox? ziel = ListBoxFuerRuestung(blattName);
+
+            if (ziel == null)
+                return;
+
+            ziel.Items.Clear();
+            ziel.Items.Add("================================");
+            ziel.Items.Add(blattName);
+            ziel.Items.Add("================================");
+            ziel.Items.Add("Noch nichts ausgewählt.");
+        }
+
+        // ============================================================
+        // GESAMTGEWICHT (listBox4)
+        // ============================================================
+
+        private void AktualisiereGesamtgewicht()
+        {
+            listBox4.Items.Clear();
+            listBox4.Visible = true;
+
+            // Aktuell ausgewählte Ausrüstung: (Anzeige, Name, Blatt)
+            // Blatt = null bedeutet: in allen Waffenblättern suchen
+            var auswahl = new List<(string Anzeige, string Name, string? Blatt)>();
+
+            if (comboBox2.SelectedIndex != -1)
+                auswahl.Add(("Nahkampfwaffe", comboBox2.SelectedItem?.ToString() ?? "", null));
+
+            if (comboBox5.SelectedIndex != -1)
+                auswahl.Add(("Fernkampf / Katalysator", comboBox5.SelectedItem?.ToString() ?? "", null));
+
+            string[,] ruestungsTeile =
+            {
+                { "Kopfbedeckungen", "Kopfbedeckung" },
+                { "Torsos", "Brustschutz" },
+                { "Armschützer", "Armpanzerung" },
+                { "Beinschützer", "Beinschutz" }
+            };
+
+            for (int i = 0; i < ruestungsTeile.GetLength(0); i++)
+            {
+                string blatt = ruestungsTeile[i, 0];
+
+                if (gewaehlteRuestung.TryGetValue(blatt, out string? teil))
+                    auswahl.Add((ruestungsTeile[i, 1], teil, blatt));
+            }
+
+            listBox4.Items.Add("================================");
+            listBox4.Items.Add("Gewicht der Ausrüstung");
+            listBox4.Items.Add("================================");
+
+            if (auswahl.Count == 0)
+            {
+                listBox4.Items.Add("Noch keine Ausrüstung ausgewählt.");
+                return;
+            }
+
+            if (!File.Exists(excelDateiPfad))
+            {
+                listBox4.Items.Add("Excel-Datei wurde nicht gefunden.");
+                return;
+            }
+
+            try
+            {
+                double gesamt = 0;
+
+                using (var workbook = new XLWorkbook(excelDateiPfad))
+                {
+                    foreach (var eintrag in auswahl)
+                    {
+                        double? gewicht = HoleGewicht(workbook, eintrag.Name, eintrag.Blatt);
+
+                        if (gewicht.HasValue)
+                        {
+                            gesamt += gewicht.Value;
+                            listBox4.Items.Add(
+                                eintrag.Anzeige + ": " + eintrag.Name +
+                                " (" + gewicht.Value.ToString("0.0") + ")"
+                            );
+                        }
+                        else
+                        {
+                            listBox4.Items.Add(
+                                eintrag.Anzeige + ": " + eintrag.Name +
+                                " (Gewicht nicht gefunden)"
+                            );
+                        }
+                    }
+                }
+
+                listBox4.Items.Add("--------------------------------");
+                listBox4.Items.Add("Gesamtgewicht: " + gesamt.ToString("0.0"));
+            }
+            catch (Exception ex)
+            {
+                listBox4.Items.Add("Fehler beim Lesen der Excel-Datei:");
+                listBox4.Items.Add(ex.Message);
+            }
+        }
+        private static double? HoleGewicht(XLWorkbook workbook, string name, string? blattName)
+        {
+            foreach (var blatt in workbook.Worksheets)
+            {
+                if (blattName != null)
+                {
+                    if (blatt.Name != blattName)
+                        continue;
+                }
+                else
+                {
+                    string kopf = blatt.Cell(3, 1).GetString().Trim();
+
+                    if (!string.Equals(kopf, "Waffe", StringComparison.OrdinalIgnoreCase))
+                        continue;
+                }
+                int letzteSpalte = blatt.Row(3).LastCellUsed()?.Address.ColumnNumber ?? 0;
+                int gewichtSpalte = -1;
+
+                for (int spalte = 1; spalte <= letzteSpalte; spalte++)
+                {
+                    if (blatt.Cell(3, spalte).GetString().Trim() == "Gewicht")
+                    {
+                        gewichtSpalte = spalte;
+                        break;
+                    }
+                }
+
+                if (gewichtSpalte == -1)
+                    continue;
+
+                int letzteZeile = blatt.LastRowUsed()?.RowNumber() ?? 3;
+
+                for (int zeile = 4; zeile <= letzteZeile; zeile++)
+                {
+                    string zellName = blatt.Cell(zeile, 1).GetString().Trim();
+
+                    if (NormalisiereName(zellName) != NormalisiereName(name))
+                        continue;
+
+                    if (blatt.Cell(zeile, gewichtSpalte).TryGetValue(out double gewicht))
+                        return gewicht;
+
+                    return null;
+                }
+            }
+
+            return null;
         }
     }
 }
