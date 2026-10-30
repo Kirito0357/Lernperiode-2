@@ -16,5 +16,7 @@
 - [x] Hausaufgabe: Alle Talismane in die Excel Datei einfügen
 - [x] Alle Spells in die Excel Datei einfügen
 - [x] Auswahl des ungefähren gewichts der Ausrüstung 
-- [ ] Alle Fertigkeiten (Ashes of war) der Waffen einfügen
+- [x] Alle Fertigkeiten (Ashes of war) der Waffen einfügen
 - [ ] Fotos hinzufügen (screenshots von mir)
+- Heute habe ich die ganzen spells in die Excel Datei eingefügt und eine ListBox die das addierte Gewicht der Ausrüstung herausgibt.
+  Dazu habe ich noch 3 weitere ListBoxen eingefügt um ein ganzes Rüstungsset zusammenzustellen. Ausserdem habe ich die fehlenden Fertigkeiten der Waffen eingefügt.
