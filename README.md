@@ -23,7 +23,15 @@
 
 ## 06.11.26
 - [ ] Fotos Hinzufügen
-- [ ] Stats und Einfluss der Stats einfügen
-- [ ] Design ändern
-- [ ] Code optimieren
-- [ ] Code Studieren?
+- [x] Stats und Einfluss der Stats einfügen
+- [x] Design ändern
+- [x] Code optimieren
+- [x] Code Studieren?
+- Heute habe ich den Code so erweiteret, dass man seine Stats angeben kann und es dann den Schaden mit den jeweiligen Stats anzeigt. Das Design habe ich auch geändert, denn jetzt ist die Schrift so ein Gold oder Gelb und der Hintergrund ist Schwarz. Den Code hat mir Claude optimiert aber ich habe danach den geänderten Code studiert den mir Claude erklärt hat. Fotos habe ich auch welche gemacht, aber noch bei weitem nicht alle.
+
+## 13.11.26
+- [ ] Fotos hinzufügen
+- [ ] Gewicht Stat einfügen lassen um das Gewicht zu bestimmen
+- [ ] Alle usage Items einfügen
+- [ ] Alle Geister einfügen
+- [ ] Anzeigen Ändern für bessere Platznutzung
