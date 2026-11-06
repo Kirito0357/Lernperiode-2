@@ -1,6 +1,7 @@
 using ClosedXML.Excel;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 
@@ -14,7 +15,6 @@ namespace Elden_Ring
                 "Waffen_Datenbank Offiziell.xlsx"
             );
 
-        // Merkt sich pro Rüstungsblatt das ausgewählte Teil (Kopf, Torso, Arme, Beine)
         private readonly Dictionary<string, string> gewaehlteRuestung =
             new Dictionary<string, string>();
 
@@ -40,7 +40,7 @@ namespace Elden_Ring
 
             listBox1.Visible = false;
             listBox2.Visible = false;
-            // Die vier Rüstungs-ListBoxen sind immer sichtbar (ganzes Set)
+
             listBox3.Visible = true;
             listBox5.Visible = true;
             listBox6.Visible = true;
@@ -67,15 +67,74 @@ namespace Elden_Ring
             listBox7.HorizontalScrollbar = true;
             listBox7.SelectionMode = SelectionMode.None;
 
-            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
-            comboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
-            comboBox3.SelectedIndexChanged += comboBox3_SelectedIndexChanged;
-            comboBox4.SelectedIndexChanged += comboBox4_SelectedIndexChanged;
+            this.BackColor = Color.FromArgb(25, 25, 25);
+
+            label1.ForeColor = Color.Goldenrod;
+            label2.ForeColor = Color.Goldenrod;
+            label3.ForeColor = Color.Goldenrod;
+            label4.ForeColor = Color.Goldenrod;
+
+            comboBox1.ForeColor = Color.Goldenrod;
+            comboBox1.BackColor = Color.FromArgb(40, 40, 40);
+            comboBox2.ForeColor = Color.Goldenrod;
+            comboBox2.BackColor = Color.FromArgb(40, 40, 40);
+            comboBox3.ForeColor = Color.Goldenrod;
+            comboBox3.BackColor = Color.FromArgb(40, 40, 40);
+            comboBox4.ForeColor = Color.Goldenrod;
+            comboBox4.BackColor = Color.FromArgb(40, 40, 40);
+            comboBox5.ForeColor = Color.Goldenrod;
+            comboBox5.BackColor = Color.FromArgb(40, 40, 40);
+            comboBox6.ForeColor = Color.Goldenrod;
+            comboBox6.BackColor = Color.FromArgb(40, 40, 40);
+            comboBox7.ForeColor = Color.Goldenrod;
+            comboBox7.BackColor = Color.FromArgb(40, 40, 40);
+
+            listBox1.ForeColor = Color.Goldenrod;
+            listBox1.BackColor = Color.FromArgb(40, 40, 40);
+            listBox2.ForeColor = Color.Goldenrod;
+            listBox2.BackColor = Color.FromArgb(40, 40, 40);
+            listBox3.ForeColor = Color.Goldenrod;
+            listBox3.BackColor = Color.FromArgb(40, 40, 40);
+            listBox4.ForeColor = Color.Goldenrod;
+            listBox4.BackColor = Color.FromArgb(40, 40, 40);
+            listBox5.ForeColor = Color.Goldenrod;
+            listBox5.BackColor = Color.FromArgb(40, 40, 40);
+            listBox6.ForeColor = Color.Goldenrod;
+            listBox6.BackColor = Color.FromArgb(40, 40, 40);
+            listBox7.ForeColor = Color.Goldenrod;
+            listBox7.BackColor = Color.FromArgb(40, 40, 40);
+
+            button1.ForeColor = Color.Goldenrod;
+            button1.BackColor = Color.FromArgb(40, 40, 40);
+
             comboBox5.SelectedIndexChanged += comboBox5_SelectedIndexChanged;
-            comboBox6.SelectedIndexChanged -= comboBox6_SelectedIndexChanged;
-            comboBox6.SelectedIndexChanged += comboBox6_SelectedIndexChanged;
-            comboBox7.SelectedIndexChanged -= comboBox7_SelectedIndexChanged;
             comboBox7.SelectedIndexChanged += comboBox7_SelectedIndexChanged;
+
+            // Stats: Farben
+            label5.ForeColor = Color.Goldenrod;
+            label6.ForeColor = Color.Goldenrod;
+            label7.ForeColor = Color.Goldenrod;
+            label8.ForeColor = Color.Goldenrod;
+            label9.ForeColor = Color.Goldenrod;
+            label10.ForeColor = Color.Goldenrod;
+
+            numericUpDown1.ForeColor = Color.Goldenrod;
+            numericUpDown1.BackColor = Color.FromArgb(40, 40, 40);
+            numericUpDown2.ForeColor = Color.Goldenrod;
+            numericUpDown2.BackColor = Color.FromArgb(40, 40, 40);
+            numericUpDown3.ForeColor = Color.Goldenrod;
+            numericUpDown3.BackColor = Color.FromArgb(40, 40, 40);
+            numericUpDown4.ForeColor = Color.Goldenrod;
+            numericUpDown4.BackColor = Color.FromArgb(40, 40, 40);
+            numericUpDown5.ForeColor = Color.Goldenrod;
+            numericUpDown5.BackColor = Color.FromArgb(40, 40, 40);
+
+            // Stats: Wenn ein Wert geändert wird, die Waffen neu berechnen
+            numericUpDown1.ValueChanged += StatsGeaendert;
+            numericUpDown2.ValueChanged += StatsGeaendert;
+            numericUpDown3.ValueChanged += StatsGeaendert;
+            numericUpDown4.ValueChanged += StatsGeaendert;
+            numericUpDown5.ValueChanged += StatsGeaendert;
 
             // --------------------------------------------------
             // Excel-Datei prüfen
@@ -140,7 +199,9 @@ namespace Elden_Ring
                 "Beinschutz"
            });
 
-            // Leere Rüstungs-ListBoxen beschriften
+            // --------------------------------------------------
+            // Startanzeige
+            // --------------------------------------------------
             ZeigeLeereRuestung("Kopfbedeckungen");
             ZeigeLeereRuestung("Torsos");
             ZeigeLeereRuestung("Armschützer");
@@ -176,7 +237,7 @@ namespace Elden_Ring
                     comboBox2.Items.AddRange(new string[]
                     {
                         "Dolch", "Parierdolch", "Misericordia", "Grosses Messer",
-                        "Blutbeflekter Dolch", "Erdenstahldolch", "Wakizashi",
+                        "Blutbefleckter Dolch", "Erdenstahldolch", "Wakizashi",
                         "Zelebrantensichel", "Elfenbeinsichel", "Kristallmesser",
                         "Skorpionstachel", "Cinqueda", "Schimmersteinkris",
                         "Reduvia", "Klinge des Rufs", "Schwarzes Messer"
@@ -188,7 +249,7 @@ namespace Elden_Ring
                     {
                         "Kurzschwert", "Langschwert", "Breitschwert", "Altes Schwert",
                         "Schwert der Getreuen", "Feines Adligenschwert", "Stockschwert",
-                        "Kriegsfallenkralle", "Lazuli-Schimmersteinschwert",
+                        "Kriegsfalkenkralle", "Lazuli-Schimmersteinschwert",
                         "Carianisches Ritterschwert", "Kristallschwert",
                         "Fäulniskristallschwert", "Miquella-Ritterschwert",
                         "Ornamentales Schwert", "Goldenes Epitaphium",
@@ -203,10 +264,10 @@ namespace Elden_Ring
                         "Bastardschwert", "Claymore", "Eisengrossschwert",
                         "Grossschwert der Getreuen", "Rittergrossschwert",
                         "Grossschwert der Exilritter", "Gegabeltes Grossschwert",
-                        "Flamberge", "Gargoile-Grossschwert", "Gargoile-Schwarzschwert",
+                        "Flamberge", "Gargoyle-Grossschwert", "Gargoyle-Schwarzschwert",
                         "Unzertrennliches Schwert", "Milos-Schwert",
                         "Henkerschwert der Marais", "Ordovis'Grossschwert",
-                        "Alabasterfürstenschwert", "Schülereisen des Todes",
+                        "Alabasterfürstenschwert", "Schüreisen des Todes",
                         "Helphens Spitzturm", "Blasphemische Klinge",
                         "Grossschwert der Goldenen Ordnung", "Dunkelmondgrossschwert",
                         "Heiliges Reliktschwert"
@@ -219,7 +280,7 @@ namespace Elden_Ring
                         "Zweihänder", "Grossschwert", "Grossschwert des Bewachers",
                         "Goldenes Trollschwert", "Trollritterschwert",
                         "Königliches Grossschwert", "Grossschwert der Verpflanzung",
-                        "Trümmergrossschwert", "Grossschwert der Sternengeissel",
+                        "Trümmergrossschwert", "Grossschwerter der Sternengeissel",
                         "Grossschwert der Gottestöterin", "Malikeths schwarze Klinge"
                     });
                     break;
@@ -245,7 +306,7 @@ namespace Elden_Ring
                     comboBox2.Items.AddRange(new string[]
                     {
                         "Krummsäbel", "Falchion", "Shamshir", "Grossmesser",
-                        "Banditenkrummschwert", "Shotel", "Plünderungskrummschwert",
+                        "Banditenkrummschwert", "Shotel", "Plündererkrummschwert",
                         "Mantisklinge", "Bestienkrummschwert", "Fliessendes Krummschwert",
                         "Schlangengottkrummschwert", "Magmaklinge",
                         "Fliessendes Noxschwert", "Schwinge von Astel", "Shotel der Eklipse"
@@ -295,7 +356,7 @@ namespace Elden_Ring
                     {
                         "Grossaxt", "Halbmondaxt", "Langstielbeil", "Henkergrossaxt",
                         "Maltöter-Grossbeil", "Rostiger Anker", "Fleischermesser",
-                        "Gargoyle-Grossaxt", "Gargoyle-Schwarzakt",
+                        "Gargoyle-Grossaxt", "Gargoyle-Schwarzaxt",
                         "Schwingengrosshorn", "Godricks Axt"
                     });
                     break;
@@ -335,7 +396,7 @@ namespace Elden_Ring
                     comboBox2.Items.AddRange(new string[]
                     {
                         "Duellantengrossaxt", "Fäulnisgrossaxt", "Golemhellebarde",
-                        "Reisenbrecher", "Infernaler Prälatenstab", "Grosskeule",
+                        "Riesenbrecher", "Infernalischer Prälatenstab", "Grosskeule",
                         "Trollhammer", "Grosse Drachenkralle", "Stab des Bewachers",
                         "Stab des Avatars", "Fäulnisstab", "Grosshorn des Gesandten",
                         "Ghizas Rad", "Sternenfallbestienkiefer", "Godfreys Axt"
@@ -446,7 +507,7 @@ namespace Elden_Ring
 
             try
             {
-                using (var workbook = new XLWorkbook(excelDateiPfad))
+                using (XLWorkbook workbook = OeffneExcel())
                 {
                     foreach (var blatt in workbook.Worksheets)
                     {
@@ -468,13 +529,13 @@ namespace Elden_Ring
                                 continue;
                             }
 
-                            // Waffenname
+                            int letzteSpalte = blatt.Row(3).LastCellUsed()?.Address.ColumnNumber ?? 1;
+
                             zielListBox.Items.Add("================================");
                             zielListBox.Items.Add("Waffe: " + name);
                             zielListBox.Items.Add("================================");
 
-                            // Kriegsasche direkt unter dem Namen anzeigen
-                            for (int spalte = 2; spalte <= 17; spalte++)
+                            for (int spalte = 2; spalte <= letzteSpalte; spalte++)
                             {
                                 if (blatt.Cell(3, spalte).GetString().Trim() == "Kriegsasche")
                                 {
@@ -489,7 +550,7 @@ namespace Elden_Ring
                                 }
                             }
 
-                            for (int spalte = 2; spalte <= 17; spalte++)
+                            for (int spalte = 2; spalte <= letzteSpalte; spalte++)
                             {
                                 string bezeichnung = blatt.Cell(3, spalte).GetString().Trim();
                                 string wert = blatt.Cell(zeile, spalte).GetFormattedString();
@@ -508,6 +569,8 @@ namespace Elden_Ring
                                     bezeichnung + ": " + wert
                                 );
                             }
+
+                            ZeigeWaffeMitStats(blatt, zeile, zielListBox);
 
                             return;
                         }
@@ -643,7 +706,7 @@ namespace Elden_Ring
                         "Carianisches Königliches Zepter", "Albinauric-Stab",
                         "Stab des Verlusts", "Schimmersteinstab vom Gelmir",
                         "Kristallstab", "Fäulniskristallstab", "Meteoritenstab",
-                        "Stab der Schuldigen", "Stab des Topesprinzen"
+                        "Stab der Schuldigen", "Stab des Todesprinzen"
                     });
                     break;
 
@@ -660,10 +723,6 @@ namespace Elden_Ring
             }
         }
 
-        // ============================================================
-        // FERNKAMPF-WAFFE AUS EXCEL
-        // ============================================================
-
         private void comboBox5_SelectedIndexChanged(object sender, EventArgs e)
         {
             listBox2.Items.Clear();
@@ -676,52 +735,15 @@ namespace Elden_Ring
 
             string waffe = comboBox5.SelectedItem?.ToString() ?? "";
 
-            // Fernkampf/Katalysatoren werden in listBox2 ausgegeben
             LadeWaffeAusExcel(waffe, listBox2);
             listBox2.Visible = true;
 
             AktualisiereGesamtgewicht();
         }
 
-        private static string NormalisiereName(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-                return "";
-
-            return name
-                .Trim()
-                .ToLowerInvariant()
-                .Replace("ß", "ss")
-                .Replace(" ", "")
-                .Replace("-", "");
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-        }
-
-        private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         // ============================================================
         // RÜSTUNGEN
         // ============================================================
-
-        // Ordnet den Einträgen in comboBox6 das passende Blatt in der Excel-Datei zu.
         private static string RuestungsBlatt(string kategorie)
         {
             switch (kategorie)
@@ -748,15 +770,25 @@ namespace Elden_Ring
 
             comboBox7.Visible = true;
 
-
             string blattName = RuestungsBlatt(comboBox6.Text);
 
-            if (!File.Exists(excelDateiPfad) || blattName == "")
+            if (blattName == "")
                 return;
+
+            if (!File.Exists(excelDateiPfad))
+            {
+                MessageBox.Show(
+                    "Die Excel-Datei wurde nicht gefunden.\n\nGesuchter Pfad:\n" + excelDateiPfad,
+                    "Excel-Datei fehlt",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+                return;
+            }
 
             try
             {
-                using (var workbook = new XLWorkbook(excelDateiPfad))
+                using (XLWorkbook workbook = OeffneExcel())
                 {
                     if (!workbook.TryGetWorksheet(blattName, out IXLWorksheet blatt))
                         return;
@@ -772,7 +804,6 @@ namespace Elden_Ring
                     }
                 }
 
-                // Wenn für diese Kategorie schon ein Teil gewählt war, wieder anzeigen
                 if (gewaehlteRuestung.TryGetValue(blattName, out string? gemerkt) &&
                     comboBox7.Items.Contains(gemerkt))
                 {
@@ -803,11 +834,8 @@ namespace Elden_Ring
             if (ziel == null)
                 return;
 
-            // Jedes Rüstungsteil hat seine eigene ListBox:
-            // Kopf = listBox3, Brust = listBox5, Arme = listBox6, Beine = listBox7
             LadeRuestungAusExcel(ruestung, blattName, ziel);
 
-            // Teil für diese Kategorie merken und Gesamtgewicht neu berechnen
             if (blattName != "")
                 gewaehlteRuestung[blattName] = ruestung;
 
@@ -829,7 +857,7 @@ namespace Elden_Ring
 
             try
             {
-                using (var workbook = new XLWorkbook(excelDateiPfad))
+                using (XLWorkbook workbook = OeffneExcel())
                 {
                     if (!workbook.TryGetWorksheet(blattName, out IXLWorksheet blatt))
                     {
@@ -849,7 +877,6 @@ namespace Elden_Ring
                             continue;
                         }
 
-                        // Name des Rüstungsteils
                         zielListBox.Items.Add("================================");
                         zielListBox.Items.Add(blattName + ": " + name);
                         zielListBox.Items.Add("================================");
@@ -884,16 +911,6 @@ namespace Elden_Ring
                 zielListBox.Items.Add(ex.Message);
             }
         }
-
-        private void listBox3_SelectedIndexChanged(object sender, EventArgs e)
-        {
-        }
-
-        // ============================================================
-        // RÜSTUNGS-SET (listBox3, listBox5, listBox6, listBox7)
-        // ============================================================
-
-        // Gibt die ListBox zurück, in der ein Rüstungsblatt angezeigt wird.
         private ListBox? ListBoxFuerRuestung(string blattName)
         {
             switch (blattName)
@@ -906,7 +923,6 @@ namespace Elden_Ring
             }
         }
 
-        // Schreibt einen Platzhalter in die ListBox eines Rüstungsteils.
         private void ZeigeLeereRuestung(string blattName)
         {
             ListBox? ziel = ListBoxFuerRuestung(blattName);
@@ -921,17 +937,11 @@ namespace Elden_Ring
             ziel.Items.Add("Noch nichts ausgewählt.");
         }
 
-        // ============================================================
-        // GESAMTGEWICHT (listBox4)
-        // ============================================================
-
         private void AktualisiereGesamtgewicht()
         {
             listBox4.Items.Clear();
             listBox4.Visible = true;
 
-            // Aktuell ausgewählte Ausrüstung: (Anzeige, Name, Blatt)
-            // Blatt = null bedeutet: in allen Waffenblättern suchen
             var auswahl = new List<(string Anzeige, string Name, string? Blatt)>();
 
             if (comboBox2.SelectedIndex != -1)
@@ -976,7 +986,7 @@ namespace Elden_Ring
             {
                 double gesamt = 0;
 
-                using (var workbook = new XLWorkbook(excelDateiPfad))
+                using (XLWorkbook workbook = OeffneExcel())
                 {
                     foreach (var eintrag in auswahl)
                     {
@@ -1057,6 +1067,242 @@ namespace Elden_Ring
             }
 
             return null;
+        }
+        private XLWorkbook OeffneExcel()
+        {
+            using (FileStream stream = new FileStream(excelDateiPfad, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            {
+                return new XLWorkbook(stream);
+            }
+        }
+
+        // ============================================================
+        // STATS
+        // ============================================================
+
+        private void StatsGeaendert(object? sender, EventArgs e)
+        {
+            if (comboBox2.SelectedIndex != -1)
+            {
+                string waffe = comboBox2.SelectedItem?.ToString() ?? "";
+                LadeWaffeAusExcel(waffe, listBox1);
+            }
+
+            if (comboBox5.SelectedIndex != -1)
+            {
+                string waffe = comboBox5.SelectedItem?.ToString() ?? "";
+                LadeWaffeAusExcel(waffe, listBox2);
+            }
+        }
+        private void ZeigeWaffeMitStats(IXLWorksheet blatt, int zeile, ListBox zielListBox)
+        {
+            int staerke = (int)numericUpDown1.Value;
+            int geschick = (int)numericUpDown2.Value;
+            int intelligenz = (int)numericUpDown3.Value;
+            int glaube = (int)numericUpDown4.Value;
+            int arkan = (int)numericUpDown5.Value;
+
+            double phys = HoleZahl(blatt, zeile, "Phys.");
+            double nebenSchaden = HoleZahl(blatt, zeile, "Neben-Schaden");
+
+            string skalStaerke = HoleText(blatt, zeile, "Skal. STR");
+            string skalGeschick = HoleText(blatt, zeile, "Skal. DEX");
+            string skalIntelligenz = HoleText(blatt, zeile, "Skal. INT");
+            string skalGlaube = HoleText(blatt, zeile, "Skal. GLA");
+            string skalArkan = HoleText(blatt, zeile, "Skal. ARK");
+
+            int anfStaerke = (int)HoleZahl(blatt, zeile, "Anf. STR");
+            int anfGeschick = (int)HoleZahl(blatt, zeile, "Anf. DEX");
+            int anfIntelligenz = (int)HoleZahl(blatt, zeile, "Anf. INT");
+            int anfGlaube = (int)HoleZahl(blatt, zeile, "Anf. GLA");
+            int anfArkan = (int)HoleZahl(blatt, zeile, "Anf. ARK");
+
+            zielListBox.Items.Add("--------------------------------");
+            zielListBox.Items.Add("Mit deinen Stats (geschätzt):");
+
+            bool alleErfuellt = true;
+
+            if (staerke < anfStaerke)
+            {
+                zielListBox.Items.Add("STR zu tief: " + staerke + " von " + anfStaerke);
+                alleErfuellt = false;
+            }
+
+            if (geschick < anfGeschick)
+            {
+                zielListBox.Items.Add("DEX zu tief: " + geschick + " von " + anfGeschick);
+                alleErfuellt = false;
+            }
+
+            if (intelligenz < anfIntelligenz)
+            {
+                zielListBox.Items.Add("INT zu tief: " + intelligenz + " von " + anfIntelligenz);
+                alleErfuellt = false;
+            }
+
+            if (glaube < anfGlaube)
+            {
+                zielListBox.Items.Add("GLA zu tief: " + glaube + " von " + anfGlaube);
+                alleErfuellt = false;
+            }
+
+            if (arkan < anfArkan)
+            {
+                zielListBox.Items.Add("ARK zu tief: " + arkan + " von " + anfArkan);
+                alleErfuellt = false;
+            }
+
+            if (alleErfuellt)
+            {
+                zielListBox.Items.Add("Anforderungen: alle erfüllt");
+            }
+
+            double bonusPhys = 0;
+            bonusPhys = bonusPhys + phys * Skalierungsfaktor(skalStaerke) * StatKurve(staerke);
+            bonusPhys = bonusPhys + phys * Skalierungsfaktor(skalGeschick) * StatKurve(geschick);
+
+            double bonusNeben = 0;
+            bonusNeben = bonusNeben + nebenSchaden * Skalierungsfaktor(skalIntelligenz) * StatKurve(intelligenz);
+            bonusNeben = bonusNeben + nebenSchaden * Skalierungsfaktor(skalGlaube) * StatKurve(glaube);
+            bonusNeben = bonusNeben + nebenSchaden * Skalierungsfaktor(skalArkan) * StatKurve(arkan);
+
+            double gesamtPhys = phys + bonusPhys;
+            double gesamtNeben = nebenSchaden + bonusNeben;
+            double gesamt = gesamtPhys + gesamtNeben;
+
+            if (!alleErfuellt)
+            {
+                gesamt = gesamt * 0.6;
+            }
+
+            zielListBox.Items.Add("Phys.: " + phys.ToString("0") + " + " + bonusPhys.ToString("0") + " = " + gesamtPhys.ToString("0"));
+
+            if (nebenSchaden > 0)
+            {
+                zielListBox.Items.Add("Neben-Schaden: " + nebenSchaden.ToString("0") + " + " + bonusNeben.ToString("0") + " = " + gesamtNeben.ToString("0"));
+            }
+
+            if (!alleErfuellt)
+            {
+                zielListBox.Items.Add("Abzug, weil Anforderungen fehlen: -40%");
+            }
+
+            zielListBox.Items.Add("Angriffskraft gesamt: " + gesamt.ToString("0"));
+        }
+
+        private static double Skalierungsfaktor(string buchstabe)
+        {
+            switch (buchstabe.Trim().ToUpper())
+            {
+                case "S": return 1.8;
+                case "A": return 1.5;
+                case "B": return 1.1;
+                case "C": return 0.75;
+                case "D": return 0.4;
+                case "E": return 0.15;
+                default: return 0;
+            }
+        }
+
+        private static double StatKurve(int stat)
+        {
+            double prozent;
+
+            if (stat <= 1)
+            {
+                prozent = 0;
+            }
+            else if (stat <= 18)
+            {
+                prozent = 25.0 * (stat - 1) / 17;
+            }
+            else if (stat <= 60)
+            {
+                prozent = 25 + 50.0 * (stat - 18) / 42;
+            }
+            else if (stat <= 80)
+            {
+                prozent = 75 + 15.0 * (stat - 60) / 20;
+            }
+            else
+            {
+                prozent = 90 + 10.0 * (stat - 80) / 19;
+            }
+
+            return prozent / 100;
+        }
+
+        private static string HoleText(IXLWorksheet blatt, int zeile, string ueberschrift)
+        {
+            int letzteSpalte = blatt.Row(3).LastCellUsed()?.Address.ColumnNumber ?? 1;
+
+            for (int spalte = 1; spalte <= letzteSpalte; spalte++)
+            {
+                if (blatt.Cell(3, spalte).GetString().Trim() == ueberschrift)
+                {
+                    return blatt.Cell(zeile, spalte).GetString().Trim();
+                }
+            }
+
+            return "";
+        }
+        private static double HoleZahl(IXLWorksheet blatt, int zeile, string ueberschrift)
+        {
+            int letzteSpalte = blatt.Row(3).LastCellUsed()?.Address.ColumnNumber ?? 1;
+
+            for (int spalte = 1; spalte <= letzteSpalte; spalte++)
+            {
+                if (blatt.Cell(3, spalte).GetString().Trim() == ueberschrift)
+                {
+                    double zahl;
+
+                    if (blatt.Cell(zeile, spalte).TryGetValue(out zahl))
+                    {
+                        return zahl;
+                    }
+
+                    return 0;
+                }
+            }
+
+            return 0;
+        }
+
+        private static string NormalisiereName(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return "";
+
+            return name
+                .Trim()
+                .ToLowerInvariant()
+                .Replace("ß", "ss")
+                .Replace(" ", "")
+                .Replace("-", "");
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+        }
+
+        private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void listBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
         }
     }
 }
