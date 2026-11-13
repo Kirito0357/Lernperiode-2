@@ -34,4 +34,4 @@
 - [x] Gewicht Stat einfügen lassen um das Gewicht zu bestimmen
 - [ ] Alle usage Items einfügen
 - [ ] Alle Geister einfügen
-- [ ] Anzeigen Ändern für bessere Platznutzung
+- [x] Anzeigen Ändern für bessere Platznutzung
