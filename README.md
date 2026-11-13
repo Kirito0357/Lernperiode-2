@@ -31,7 +31,7 @@
 
 ## 13.11.26
 - [ ] Fotos hinzufügen
-- [ ] Gewicht Stat einfügen lassen um das Gewicht zu bestimmen
+- [x] Gewicht Stat einfügen lassen um das Gewicht zu bestimmen
 - [ ] Alle usage Items einfügen
 - [ ] Alle Geister einfügen
 - [ ] Anzeigen Ändern für bessere Platznutzung
