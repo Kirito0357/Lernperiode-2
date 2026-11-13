@@ -129,12 +129,28 @@ namespace Elden_Ring
             numericUpDown5.ForeColor = Color.Goldenrod;
             numericUpDown5.BackColor = Color.FromArgb(40, 40, 40);
 
+            // Ausdauer: Farben
+            label11.ForeColor = Color.Goldenrod;
+            numericUpDown6.ForeColor = Color.Goldenrod;
+            numericUpDown6.BackColor = Color.FromArgb(40, 40, 40);
+
             // Stats: Wenn ein Wert geändert wird, die Waffen neu berechnen
             numericUpDown1.ValueChanged += StatsGeaendert;
             numericUpDown2.ValueChanged += StatsGeaendert;
             numericUpDown3.ValueChanged += StatsGeaendert;
             numericUpDown4.ValueChanged += StatsGeaendert;
             numericUpDown5.ValueChanged += StatsGeaendert;
+
+            // Stats: Beim Eintippen sofort auf höchstens 99 begrenzen
+            numericUpDown1.TextChanged += StatEingabePruefen;
+            numericUpDown2.TextChanged += StatEingabePruefen;
+            numericUpDown3.TextChanged += StatEingabePruefen;
+            numericUpDown4.TextChanged += StatEingabePruefen;
+            numericUpDown5.TextChanged += StatEingabePruefen;
+
+            // Ausdauer: Gewicht neu berechnen und Eingabe auf 99 begrenzen
+            numericUpDown6.ValueChanged += AusdauerGeaendert;
+            numericUpDown6.TextChanged += StatEingabePruefen;
 
             // --------------------------------------------------
             // Excel-Datei prüfen
@@ -1012,6 +1028,8 @@ namespace Elden_Ring
 
                 listBox4.Items.Add("--------------------------------");
                 listBox4.Items.Add("Gesamtgewicht: " + gesamt.ToString("0.0"));
+
+                ZeigeGewichtsklasse(gesamt);
             }
             catch (Exception ex)
             {
@@ -1079,6 +1097,30 @@ namespace Elden_Ring
         // ============================================================
         // STATS
         // ============================================================
+
+        // Wird bei jedem Tastendruck in einem Stat-Feld aufgerufen.
+        // Ist die Zahl grösser als 99, wird sie sofort auf 99 gesetzt.
+        private void StatEingabePruefen(object? sender, EventArgs e)
+        {
+            NumericUpDown? feld = sender as NumericUpDown;
+
+            if (feld == null)
+                return;
+
+            int zahl;
+
+            if (int.TryParse(feld.Text, out zahl))
+            {
+                if (zahl > 99)
+                {
+                    feld.Value = 99;
+                    feld.Text = "99";
+
+                    // Cursor ans Ende setzen
+                    feld.Select(feld.Text.Length, 0);
+                }
+            }
+        }
 
         private void StatsGeaendert(object? sender, EventArgs e)
         {
@@ -1266,6 +1308,68 @@ namespace Elden_Ring
             }
 
             return 0;
+        }
+
+        private void AusdauerGeaendert(object? sender, EventArgs e)
+        {
+            AktualisiereGesamtgewicht();
+        }
+
+        private static double MaximalesGewicht(int ausdauer)
+        {
+            double maximum;
+
+            if (ausdauer <= 8)
+            {
+                maximum = 45;
+            }
+            else if (ausdauer <= 25)
+            {
+                maximum = 45 + 27.0 * (ausdauer - 8) / 17;
+            }
+            else if (ausdauer <= 60)
+            {
+                double anteil = (ausdauer - 25) / 35.0;
+                maximum = 72 + 48 * (1 - Math.Pow(1 - anteil, 1.2));
+            }
+            else
+            {
+                maximum = 120 + 40.0 * (ausdauer - 60) / 39;
+            }
+
+            return maximum;
+        }
+
+        private void ZeigeGewichtsklasse(double gesamt)
+        {
+            int ausdauer = (int)numericUpDown6.Value;
+            double maximum = MaximalesGewicht(ausdauer);
+
+            double prozent = gesamt / maximum * 100;
+
+            string klasse;
+
+            if (prozent < 30)
+            {
+                klasse = "Niedriges Gewicht (schnelle Ausweichrolle)";
+            }
+            else if (prozent < 70)
+            {
+                klasse = "Mittleres Gewicht (normale Ausweichrolle)";
+            }
+            else if (prozent <= 100)
+            {
+                klasse = "Hohes Gewicht (langsame Ausweichrolle)";
+            }
+            else
+            {
+                klasse = "Überladen (kein Ausweichen, nur gehen)";
+            }
+
+            listBox4.Items.Add("Max. Gewicht (Ausdauer " + ausdauer + "): " + maximum.ToString("0.0"));
+            listBox4.Items.Add("Belastung: " + prozent.ToString("0.0") + " %");
+            listBox4.Items.Add("--------------------------------");
+            listBox4.Items.Add(klasse);
         }
 
         private static string NormalisiereName(string name)
