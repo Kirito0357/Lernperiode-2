@@ -35,3 +35,10 @@
 - [ ] Alle usage Items einfügen
 - [ ] Alle Geister einfügen
 - [x] Anzeigen Ändern für bessere Platznutzung
+- Heute habe ich eine der Listboxen überarbeitet, dass es jetzt das Gewicht an den Ausdauer Stat anzeigt und herausgibt ob es leichtes, mittleres oder hohes Gewicht ist das man im Moment ausgewählt hat. Die Anordnung der Boxen habe ich auch verbessert und jetzt sieht es etwas übersichtlicher wie vorher aus. Die ganzen Items und Geister habe ich jedoch nicht alle reinbekommen. Bei den Fotos bin ich immernoch nicht sehr weit
+
+## 20.11.26
+- [ ] Alle usage Items einfügen
+- [ ] Alle Geister einfügem
+- [ ] Anfangen mit einem Hauptmenü
+- [ ] Boss Datenbank machen
