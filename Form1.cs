@@ -18,6 +18,10 @@ namespace Elden_Ring
         private readonly Dictionary<string, string> gewaehlteRuestung =
             new Dictionary<string, string>();
 
+        private const string KeineRuestung = "— Keine —";
+
+        private FavoritenForm? favoritenFenster;
+
         public Form1()
         {
             InitializeComponent();
@@ -26,7 +30,7 @@ namespace Elden_Ring
             // Grundkonfiguration
             // --------------------------------------------------
 
-            button1.Visible = false;
+            button1.Visible = true;
 
             comboBox1.Visible = true;
             comboBox2.Visible = false;
@@ -36,7 +40,9 @@ namespace Elden_Ring
             comboBox5.Visible = false;
 
             comboBox6.Visible = true;
-            comboBox7.Visible = false;
+            comboBox7.Visible = true;
+            comboBox8.Visible = true;
+            comboBox9.Visible = true;
 
             listBox1.Visible = false;
             listBox2.Visible = false;
@@ -67,90 +73,189 @@ namespace Elden_Ring
             listBox7.HorizontalScrollbar = true;
             listBox7.SelectionMode = SelectionMode.None;
 
-            this.BackColor = Color.FromArgb(25, 25, 25);
+            this.BackColor = Design.Hintergrund;
+            this.DoubleBuffered = true;
+            this.ResizeRedraw = true;
+            this.Paint += Form1_Paint;
 
-            label1.ForeColor = Color.Goldenrod;
-            label2.ForeColor = Color.Goldenrod;
-            label3.ForeColor = Color.Goldenrod;
-            label4.ForeColor = Color.Goldenrod;
+            label12.Font = Design.Titel;
+            label12.ForeColor = Design.GoldHell;
+            label12.BackColor = Color.Transparent;
 
-            comboBox1.ForeColor = Color.Goldenrod;
-            comboBox1.BackColor = Color.FromArgb(40, 40, 40);
-            comboBox2.ForeColor = Color.Goldenrod;
-            comboBox2.BackColor = Color.FromArgb(40, 40, 40);
-            comboBox3.ForeColor = Color.Goldenrod;
-            comboBox3.BackColor = Color.FromArgb(40, 40, 40);
-            comboBox4.ForeColor = Color.Goldenrod;
-            comboBox4.BackColor = Color.FromArgb(40, 40, 40);
-            comboBox5.ForeColor = Color.Goldenrod;
-            comboBox5.BackColor = Color.FromArgb(40, 40, 40);
-            comboBox6.ForeColor = Color.Goldenrod;
-            comboBox6.BackColor = Color.FromArgb(40, 40, 40);
-            comboBox7.ForeColor = Color.Goldenrod;
-            comboBox7.BackColor = Color.FromArgb(40, 40, 40);
+            linie1.BackColor = Design.GoldDunkel;
+            linie2.BackColor = Design.GoldDunkel;
+            linie3.BackColor = Design.GoldDunkel;
+            linie4.BackColor = Design.GoldDunkel;
+            linie5.BackColor = Design.GoldDunkel;
+            linie6.BackColor = Design.GoldDunkel;
 
-            listBox1.ForeColor = Color.Goldenrod;
-            listBox1.BackColor = Color.FromArgb(40, 40, 40);
-            listBox2.ForeColor = Color.Goldenrod;
-            listBox2.BackColor = Color.FromArgb(40, 40, 40);
-            listBox3.ForeColor = Color.Goldenrod;
-            listBox3.BackColor = Color.FromArgb(40, 40, 40);
-            listBox4.ForeColor = Color.Goldenrod;
-            listBox4.BackColor = Color.FromArgb(40, 40, 40);
-            listBox5.ForeColor = Color.Goldenrod;
-            listBox5.BackColor = Color.FromArgb(40, 40, 40);
-            listBox6.ForeColor = Color.Goldenrod;
-            listBox6.BackColor = Color.FromArgb(40, 40, 40);
-            listBox7.ForeColor = Color.Goldenrod;
-            listBox7.BackColor = Color.FromArgb(40, 40, 40);
+            label1.Font = Design.Ueberschrift;
+            label1.ForeColor = Design.GoldHell;
+            label1.BackColor = Color.Transparent;
+            label2.Font = Design.Ueberschrift;
+            label2.ForeColor = Design.GoldHell;
+            label2.BackColor = Color.Transparent;
+            label3.Font = Design.Ueberschrift;
+            label3.ForeColor = Design.GoldHell;
+            label3.BackColor = Color.Transparent;
+            label4.Font = Design.Ueberschrift;
+            label4.ForeColor = Design.GoldHell;
+            label4.BackColor = Color.Transparent;
+            label5.Font = Design.Ueberschrift;
+            label5.ForeColor = Design.GoldHell;
+            label5.BackColor = Color.Transparent;
 
-            button1.ForeColor = Color.Goldenrod;
-            button1.BackColor = Color.FromArgb(40, 40, 40);
+            comboBox1.Font = Design.Text;
+            comboBox1.ForeColor = Design.Gold;
+            comboBox1.BackColor = Design.Feld;
+            comboBox2.Font = Design.Text;
+            comboBox2.ForeColor = Design.Gold;
+            comboBox2.BackColor = Design.Feld;
+            comboBox3.Font = Design.Text;
+            comboBox3.ForeColor = Design.Gold;
+            comboBox3.BackColor = Design.Feld;
+            comboBox4.Font = Design.Text;
+            comboBox4.ForeColor = Design.Gold;
+            comboBox4.BackColor = Design.Feld;
+            comboBox5.Font = Design.Text;
+            comboBox5.ForeColor = Design.Gold;
+            comboBox5.BackColor = Design.Feld;
+            comboBox6.Font = Design.Text;
+            comboBox6.ForeColor = Design.Gold;
+            comboBox6.BackColor = Design.Feld;
+            comboBox7.Font = Design.Text;
+            comboBox7.ForeColor = Design.Gold;
+            comboBox7.BackColor = Design.Feld;
+            comboBox8.Font = Design.Text;
+            comboBox8.ForeColor = Design.Gold;
+            comboBox8.BackColor = Design.Feld;
+            comboBox9.Font = Design.Text;
+            comboBox9.ForeColor = Design.Gold;
+            comboBox9.BackColor = Design.Feld;
+
+            label13.Font = Design.Text;
+            label13.ForeColor = Design.GoldHell;
+            label13.BackColor = Color.Transparent;
+            label14.Font = Design.Text;
+            label14.ForeColor = Design.GoldHell;
+            label14.BackColor = Color.Transparent;
+            label15.Font = Design.Text;
+            label15.ForeColor = Design.GoldHell;
+            label15.BackColor = Color.Transparent;
+            label16.Font = Design.Text;
+            label16.ForeColor = Design.GoldHell;
+            label16.BackColor = Color.Transparent;
+
+            listBox1.Font = Design.Text;
+            listBox1.ForeColor = Design.Gold;
+            listBox1.BackColor = Design.Feld;
+            listBox2.Font = Design.Text;
+            listBox2.ForeColor = Design.Gold;
+            listBox2.BackColor = Design.Feld;
+            listBox3.Font = Design.Text;
+            listBox3.ForeColor = Design.Gold;
+            listBox3.BackColor = Design.Feld;
+            listBox4.Font = Design.Text;
+            listBox4.ForeColor = Design.Gold;
+            listBox4.BackColor = Design.Feld;
+            listBox5.Font = Design.Text;
+            listBox5.ForeColor = Design.Gold;
+            listBox5.BackColor = Design.Feld;
+            listBox6.Font = Design.Text;
+            listBox6.ForeColor = Design.Gold;
+            listBox6.BackColor = Design.Feld;
+            listBox7.Font = Design.Text;
+            listBox7.ForeColor = Design.Gold;
+            listBox7.BackColor = Design.Feld;
+
+            button1.Font = Design.Text;
+            button1.ForeColor = Design.Gold;
+            button1.BackColor = Design.Feld;
+            button1.FlatAppearance.BorderColor = Design.GoldDunkel;
+            button1.FlatAppearance.MouseOverBackColor = Design.KnopfMaus;
+            button1.FlatAppearance.MouseDownBackColor = Design.KnopfGedrueckt;
+
+            button2.Font = Design.Text;
+            button2.ForeColor = Design.GoldHell;
+            button2.BackColor = Design.Feld;
+            button2.FlatAppearance.BorderColor = Design.GoldDunkel;
+            button2.FlatAppearance.MouseOverBackColor = Design.KnopfMaus;
+            button2.FlatAppearance.MouseDownBackColor = Design.KnopfGedrueckt;
+
+            button3.Font = Design.Text;
+            button3.ForeColor = Design.GoldHell;
+            button3.BackColor = Design.Feld;
+            button3.FlatAppearance.BorderColor = Design.GoldDunkel;
+            button3.FlatAppearance.MouseOverBackColor = Design.KnopfMaus;
+            button3.FlatAppearance.MouseDownBackColor = Design.KnopfGedrueckt;
+
+            button4.Font = Design.Text;
+            button4.ForeColor = Design.GoldHell;
+            button4.BackColor = Design.Feld;
+            button4.FlatAppearance.BorderColor = Design.GoldDunkel;
+            button4.FlatAppearance.MouseOverBackColor = Design.KnopfMaus;
+            button4.FlatAppearance.MouseDownBackColor = Design.KnopfGedrueckt;
 
             comboBox5.SelectedIndexChanged += comboBox5_SelectedIndexChanged;
             comboBox7.SelectedIndexChanged += comboBox7_SelectedIndexChanged;
+            comboBox8.SelectedIndexChanged += comboBox8_SelectedIndexChanged;
+            comboBox9.SelectedIndexChanged += comboBox9_SelectedIndexChanged;
 
             // Stats: Farben
-            label5.ForeColor = Color.Goldenrod;
-            label6.ForeColor = Color.Goldenrod;
-            label7.ForeColor = Color.Goldenrod;
-            label8.ForeColor = Color.Goldenrod;
-            label9.ForeColor = Color.Goldenrod;
-            label10.ForeColor = Color.Goldenrod;
+            label6.Font = Design.Text;
+            label6.ForeColor = Design.Gold;
+            label6.BackColor = Color.Transparent;
+            label7.Font = Design.Text;
+            label7.ForeColor = Design.Gold;
+            label7.BackColor = Color.Transparent;
+            label8.Font = Design.Text;
+            label8.ForeColor = Design.Gold;
+            label8.BackColor = Color.Transparent;
+            label9.Font = Design.Text;
+            label9.ForeColor = Design.Gold;
+            label9.BackColor = Color.Transparent;
+            label10.Font = Design.Text;
+            label10.ForeColor = Design.Gold;
+            label10.BackColor = Color.Transparent;
 
-            numericUpDown1.ForeColor = Color.Goldenrod;
-            numericUpDown1.BackColor = Color.FromArgb(40, 40, 40);
-            numericUpDown2.ForeColor = Color.Goldenrod;
-            numericUpDown2.BackColor = Color.FromArgb(40, 40, 40);
-            numericUpDown3.ForeColor = Color.Goldenrod;
-            numericUpDown3.BackColor = Color.FromArgb(40, 40, 40);
-            numericUpDown4.ForeColor = Color.Goldenrod;
-            numericUpDown4.BackColor = Color.FromArgb(40, 40, 40);
-            numericUpDown5.ForeColor = Color.Goldenrod;
-            numericUpDown5.BackColor = Color.FromArgb(40, 40, 40);
+            numericUpDown1.Font = Design.Text;
+            numericUpDown1.ForeColor = Design.Gold;
+            numericUpDown1.BackColor = Design.Feld;
+            numericUpDown2.Font = Design.Text;
+            numericUpDown2.ForeColor = Design.Gold;
+            numericUpDown2.BackColor = Design.Feld;
+            numericUpDown3.Font = Design.Text;
+            numericUpDown3.ForeColor = Design.Gold;
+            numericUpDown3.BackColor = Design.Feld;
+            numericUpDown4.Font = Design.Text;
+            numericUpDown4.ForeColor = Design.Gold;
+            numericUpDown4.BackColor = Design.Feld;
+            numericUpDown5.Font = Design.Text;
+            numericUpDown5.ForeColor = Design.Gold;
+            numericUpDown5.BackColor = Design.Feld;
 
-            // Ausdauer: Farben
-            label11.ForeColor = Color.Goldenrod;
-            numericUpDown6.ForeColor = Color.Goldenrod;
-            numericUpDown6.BackColor = Color.FromArgb(40, 40, 40);
+            label11.Font = Design.Text;
+            label11.ForeColor = Design.GoldHell;
+            label11.BackColor = Color.Transparent;
+            numericUpDown6.Font = Design.Text;
+            numericUpDown6.ForeColor = Design.GoldHell;
+            numericUpDown6.BackColor = Design.Feld;
 
-            // Stats: Wenn ein Wert geändert wird, die Waffen neu berechnen
             numericUpDown1.ValueChanged += StatsGeaendert;
             numericUpDown2.ValueChanged += StatsGeaendert;
             numericUpDown3.ValueChanged += StatsGeaendert;
             numericUpDown4.ValueChanged += StatsGeaendert;
             numericUpDown5.ValueChanged += StatsGeaendert;
 
-            // Stats: Beim Eintippen sofort auf höchstens 99 begrenzen
             numericUpDown1.TextChanged += StatEingabePruefen;
             numericUpDown2.TextChanged += StatEingabePruefen;
             numericUpDown3.TextChanged += StatEingabePruefen;
             numericUpDown4.TextChanged += StatEingabePruefen;
             numericUpDown5.TextChanged += StatEingabePruefen;
-
-            // Ausdauer: Gewicht neu berechnen und Eingabe auf 99 begrenzen
             numericUpDown6.ValueChanged += AusdauerGeaendert;
             numericUpDown6.TextChanged += StatEingabePruefen;
+
+            this.FormClosing += Form1_FormClosing;
 
             // --------------------------------------------------
             // Excel-Datei prüfen
@@ -207,13 +312,12 @@ namespace Elden_Ring
                 "Fernkampf",
                 "Katalysatoren"
             });
-            comboBox6.Items.AddRange(new string[]
-           {
-                "Kopfbedeckung",
-                "Brustschutz",
-                "Armpanzerung",
-                "Beinschutz"
-           });
+            LadeRuestungsListe(comboBox6, "Kopfbedeckungen");
+            LadeRuestungsListe(comboBox7, "Torsos");
+            LadeRuestungsListe(comboBox8, "Armschützer");
+            LadeRuestungsListe(comboBox9, "Beinschützer");
+
+            LadeStats();
 
             // --------------------------------------------------
             // Startanzeige
@@ -547,9 +651,9 @@ namespace Elden_Ring
 
                             int letzteSpalte = blatt.Row(3).LastCellUsed()?.Address.ColumnNumber ?? 1;
 
-                            zielListBox.Items.Add("================================");
+                            zielListBox.Items.Add("——————————  ·  ——————————");
                             zielListBox.Items.Add("Waffe: " + name);
-                            zielListBox.Items.Add("================================");
+                            zielListBox.Items.Add("——————————  ·  ——————————");
 
                             for (int spalte = 2; spalte <= letzteSpalte; spalte++)
                             {
@@ -574,7 +678,6 @@ namespace Elden_Ring
                                 if (string.IsNullOrWhiteSpace(bezeichnung))
                                     continue;
 
-                                // Kriegsasche wurde oben schon ausgegeben
                                 if (bezeichnung == "Kriegsasche")
                                     continue;
 
@@ -756,51 +859,15 @@ namespace Elden_Ring
 
             AktualisiereGesamtgewicht();
         }
-
-        // ============================================================
-        // RÜSTUNGEN
-        // ============================================================
-        private static string RuestungsBlatt(string kategorie)
+        private void LadeRuestungsListe(ComboBox box, string blattName)
         {
-            switch (kategorie)
-            {
-                case "Kopfbedeckung": return "Kopfbedeckungen";
-                case "Brustschutz": return "Torsos";
-                case "Armpanzerung": return "Armschützer";
-                case "Beinschutz": return "Beinschützer";
-                default: return "";
-            }
-        }
+            box.DropDownStyle = ComboBoxStyle.DropDownList;
+            box.Items.Clear();
 
-        private void comboBox6_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            comboBox7.Items.Clear();
-            comboBox7.SelectedIndex = -1;
-            comboBox7.Text = "";
-
-            if (comboBox6.SelectedIndex == -1)
-            {
-                comboBox7.Visible = false;
-                return;
-            }
-
-            comboBox7.Visible = true;
-
-            string blattName = RuestungsBlatt(comboBox6.Text);
-
-            if (blattName == "")
-                return;
+            box.Items.Add(KeineRuestung);
 
             if (!File.Exists(excelDateiPfad))
-            {
-                MessageBox.Show(
-                    "Die Excel-Datei wurde nicht gefunden.\n\nGesuchter Pfad:\n" + excelDateiPfad,
-                    "Excel-Datei fehlt",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
                 return;
-            }
 
             try
             {
@@ -816,14 +883,8 @@ namespace Elden_Ring
                         string name = blatt.Cell(zeile, 1).GetString().Trim();
 
                         if (!string.IsNullOrWhiteSpace(name))
-                            comboBox7.Items.Add(name);
+                            box.Items.Add(name);
                     }
-                }
-
-                if (gewaehlteRuestung.TryGetValue(blattName, out string? gemerkt) &&
-                    comboBox7.Items.Contains(gemerkt))
-                {
-                    comboBox7.SelectedItem = gemerkt;
                 }
             }
             catch (Exception ex)
@@ -837,23 +898,47 @@ namespace Elden_Ring
             }
         }
 
+        private void comboBox6_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RuestungGewaehlt(comboBox6, "Kopfbedeckungen");
+        }
+
         private void comboBox7_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox7.SelectedIndex == -1)
+            RuestungGewaehlt(comboBox7, "Torsos");
+        }
+
+        private void comboBox8_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            RuestungGewaehlt(comboBox8, "Armschützer");
+        }
+
+        private void comboBox9_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            RuestungGewaehlt(comboBox9, "Beinschützer");
+        }
+        private void RuestungGewaehlt(ComboBox box, string blattName)
+        {
+            if (box.SelectedIndex == -1)
                 return;
 
-            string ruestung = comboBox7.SelectedItem?.ToString() ?? "";
-            string blattName = RuestungsBlatt(comboBox6.Text);
+            string ruestung = box.SelectedItem?.ToString() ?? "";
 
             ListBox? ziel = ListBoxFuerRuestung(blattName);
 
             if (ziel == null)
                 return;
 
-            LadeRuestungAusExcel(ruestung, blattName, ziel);
-
-            if (blattName != "")
+            if (ruestung == KeineRuestung)
+            {
+                gewaehlteRuestung.Remove(blattName);
+                ZeigeLeereRuestung(blattName);
+            }
+            else
+            {
+                LadeRuestungAusExcel(ruestung, blattName, ziel);
                 gewaehlteRuestung[blattName] = ruestung;
+            }
 
             AktualisiereGesamtgewicht();
         }
@@ -893,9 +978,9 @@ namespace Elden_Ring
                             continue;
                         }
 
-                        zielListBox.Items.Add("================================");
+                        zielListBox.Items.Add("——————————  ·  ——————————");
                         zielListBox.Items.Add(blattName + ": " + name);
-                        zielListBox.Items.Add("================================");
+                        zielListBox.Items.Add("——————————  ·  ——————————");
 
                         for (int spalte = 2; spalte <= letzteSpalte; spalte++)
                         {
@@ -947,9 +1032,9 @@ namespace Elden_Ring
                 return;
 
             ziel.Items.Clear();
-            ziel.Items.Add("================================");
+            ziel.Items.Add("——————————  ·  ——————————");
             ziel.Items.Add(blattName);
-            ziel.Items.Add("================================");
+            ziel.Items.Add("——————————  ·  ——————————");
             ziel.Items.Add("Noch nichts ausgewählt.");
         }
 
@@ -982,9 +1067,9 @@ namespace Elden_Ring
                     auswahl.Add((ruestungsTeile[i, 1], teil, blatt));
             }
 
-            listBox4.Items.Add("================================");
+            listBox4.Items.Add("——————————  ·  ——————————");
             listBox4.Items.Add("Gewicht der Ausrüstung");
-            listBox4.Items.Add("================================");
+            listBox4.Items.Add("——————————  ·  ——————————");
 
             if (auswahl.Count == 0)
             {
@@ -1093,13 +1178,6 @@ namespace Elden_Ring
                 return new XLWorkbook(stream);
             }
         }
-
-        // ============================================================
-        // STATS
-        // ============================================================
-
-        // Wird bei jedem Tastendruck in einem Stat-Feld aufgerufen.
-        // Ist die Zahl grösser als 99, wird sie sofort auf 99 gesetzt.
         private void StatEingabePruefen(object? sender, EventArgs e)
         {
             NumericUpDown? feld = sender as NumericUpDown;
@@ -1116,7 +1194,6 @@ namespace Elden_Ring
                     feld.Value = 99;
                     feld.Text = "99";
 
-                    // Cursor ans Ende setzen
                     feld.Select(feld.Text.Length, 0);
                 }
             }
@@ -1134,6 +1211,11 @@ namespace Elden_Ring
             {
                 string waffe = comboBox5.SelectedItem?.ToString() ?? "";
                 LadeWaffeAusExcel(waffe, listBox2);
+            }
+
+            if (favoritenFenster != null && !favoritenFenster.IsDisposed)
+            {
+                favoritenFenster.AktualisiereAnzeige();
             }
         }
         private void ZeigeWaffeMitStats(IXLWorksheet blatt, int zeile, ListBox zielListBox)
@@ -1385,6 +1467,11 @@ namespace Elden_Ring
                 .Replace("-", "");
         }
 
+        private void Form1_Paint(object? sender, PaintEventArgs e)
+        {
+            Design.MaleHintergrund(e.Graphics, this.ClientRectangle);
+        }
+
         private void label1_Click(object sender, EventArgs e)
         {
         }
@@ -1397,12 +1484,163 @@ namespace Elden_Ring
         {
         }
 
+        // ============================================================
+        // STATS SPEICHERN
+        // ============================================================
+
+        private readonly string statsDateiPfad =
+            Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                "Elden Ring Datenbank",
+                "stats.txt"
+            );
+
+        private void Form1_FormClosing(object? sender, FormClosingEventArgs e)
+        {
+            SpeichereStats();
+        }
+
+        private void SpeichereStats()
+        {
+            string[] zeilen =
+            {
+                numericUpDown1.Value.ToString(),
+                numericUpDown2.Value.ToString(),
+                numericUpDown3.Value.ToString(),
+                numericUpDown4.Value.ToString(),
+                numericUpDown5.Value.ToString(),
+                numericUpDown6.Value.ToString()
+            };
+
+            try
+            {
+                string? ordner = Path.GetDirectoryName(statsDateiPfad);
+
+                if (ordner != null)
+                {
+                    Directory.CreateDirectory(ordner);
+                }
+
+                File.WriteAllLines(statsDateiPfad, zeilen);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Stats konnten nicht gespeichert werden:\n\n" + ex.Message);
+            }
+        }
+
+        private void LadeStats()
+        {
+            if (!File.Exists(statsDateiPfad))
+                return;
+
+            try
+            {
+                string[] zeilen = File.ReadAllLines(statsDateiPfad);
+
+                if (zeilen.Length < 6)
+                    return;
+
+                numericUpDown1.Value = StatAusText(zeilen[0]);
+                numericUpDown2.Value = StatAusText(zeilen[1]);
+                numericUpDown3.Value = StatAusText(zeilen[2]);
+                numericUpDown4.Value = StatAusText(zeilen[3]);
+                numericUpDown5.Value = StatAusText(zeilen[4]);
+                numericUpDown6.Value = StatAusText(zeilen[5]);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Stats konnten nicht geladen werden:\n\n" + ex.Message);
+            }
+        }        private static decimal StatAusText(string text)
+        {
+            int zahl;
+
+            if (!int.TryParse(text.Trim(), out zahl))
+                return 10;
+
+            if (zahl < 1)
+                zahl = 1;
+
+            if (zahl > 99)
+                zahl = 99;
+
+            return zahl;
+        }
+
         private void button1_Click_1(object sender, EventArgs e)
         {
+            
+            this.Close();
         }
 
         private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (comboBox2.SelectedIndex == -1)
+            {
+                MessageBox.Show("Bitte zuerst eine Nahkampfwaffe auswählen.");
+                return;
+            }
+
+            string kategorie = comboBox1.Text;
+            string waffe = comboBox2.SelectedItem?.ToString() ?? "";
+
+            SpeichereFavorit("Nahkampf", kategorie, waffe);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (comboBox5.SelectedIndex == -1)
+            {
+                MessageBox.Show("Bitte zuerst eine Fernkampfwaffe oder einen Katalysator auswählen.");
+                return;
+            }
+
+            string art = comboBox3.Text;       
+            string kategorie = comboBox4.Text; 
+            string waffe = comboBox5.SelectedItem?.ToString() ?? "";
+
+            SpeichereFavorit(art, kategorie, waffe);
+        }
+
+        private void SpeichereFavorit(string art, string kategorie, string waffe)
+        {
+            try
+            {
+                bool neu = Favoriten.Hinzufuegen(art, kategorie, waffe);
+
+                if (neu)
+                {
+                    MessageBox.Show(waffe + " wurde zu den Favoriten hinzugefügt.", "Favoriten");
+                }
+                else
+                {
+                    MessageBox.Show(waffe + " ist schon in den Favoriten.", "Favoriten");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Favorit konnte nicht gespeichert werden:\n\n" + ex.Message);
+            }
+        }
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (favoritenFenster != null && !favoritenFenster.IsDisposed)
+            {
+                favoritenFenster.Activate();
+                return;
+            }
+
+            favoritenFenster = new FavoritenForm(this);
+            favoritenFenster.Show(this);
+        }
+        public void ZeigeWaffe(string waffe, ListBox zielListBox)
+        {
+            LadeWaffeAusExcel(waffe, zielListBox);
         }
 
         private void listBox3_SelectedIndexChanged(object sender, EventArgs e)
