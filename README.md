@@ -42,3 +42,10 @@
 - [ ] Alle Geister einfügem
 - [x] Anfangen mit einem Hauptmenü
 - [ ] Boss Datenbank machen
+- Heute habe ich alle Usage Items in meine Excel Datei eingefügt und ein paar weitere comboBoxen. Dazu habe ich noch ein Hauptmenü gemacht und ein Favoriten Feature.
+
+- ## 27.11.26
+- [ ] Alle Geister einfügen
+- [ ] Boss Datenbank machen
+- [ ] QOF Features einfügen
+- [ ] Hauptmenü überarbeiten 
