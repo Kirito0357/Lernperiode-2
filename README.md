@@ -30,10 +30,10 @@
 - Heute habe ich den Code so erweiteret, dass man seine Stats angeben kann und es dann den Schaden mit den jeweiligen Stats anzeigt. Das Design habe ich auch geändert, denn jetzt ist die Schrift so ein Gold oder Gelb und der Hintergrund ist Schwarz. Den Code hat mir Claude optimiert aber ich habe danach den geänderten Code studiert den mir Claude erklärt hat. Fotos habe ich auch welche gemacht, aber noch bei weitem nicht alle.
 
 ## 13.11.26
-- [ ] Fotos hinzufügen
+- [x] Fotos hinzufügen
 - [x] Gewicht Stat einfügen lassen um das Gewicht zu bestimmen
 - [x] Alle usage Items einfügen
-- [ ] Alle Geister einfügen
+- [x] Alle Geister einfügen
 - [x] Anzeigen Ändern für bessere Platznutzung
 - Heute habe ich eine der Listboxen überarbeitet, dass es jetzt das Gewicht an den Ausdauer Stat anzeigt und herausgibt ob es leichtes, mittleres oder hohes Gewicht ist das man im Moment ausgewählt hat. Die Anordnung der Boxen habe ich auch verbessert und jetzt sieht es etwas übersichtlicher wie vorher aus. Die ganzen Items und Geister habe ich jedoch nicht alle reinbekommen. Bei den Fotos bin ich immernoch nicht sehr weit
 
