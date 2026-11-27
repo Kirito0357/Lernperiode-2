@@ -48,4 +48,4 @@
 - [ ] Alle Geister einfügen
 - [ ] Boss Datenbank machen
 - [ ] QOF Features einfügen
-- [ ] Hauptmenü überarbeiten 
+- [x] Hauptmenü überarbeiten 
