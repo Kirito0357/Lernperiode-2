@@ -17,12 +17,12 @@
 - [x] Alle Spells in die Excel Datei einfügen
 - [x] Auswahl des ungefähren gewichts der Ausrüstung 
 - [x] Alle Fertigkeiten (Ashes of war) der Waffen einfügen
-- [ ] Fotos hinzufügen (screenshots von mir)
+- [x] Fotos hinzufügen (screenshots von mir)
 - Heute habe ich die ganzen spells in die Excel Datei eingefügt und eine ListBox die das addierte Gewicht der Ausrüstung herausgibt.
   Dazu habe ich noch 3 weitere ListBoxen eingefügt um ein ganzes Rüstungsset zusammenzustellen. Ausserdem habe ich die fehlenden Fertigkeiten der Waffen eingefügt. Und daher dass ich einen wichtigen Teil meines Codes mit Claude gemacht habe, habe ich mich informiert wie dieser Code eigentlich genau funktioniert, da ich nicht einfach ein Programm machen kann bei dem ich nicht verstehe was im Code passiert.
 
 ## 06.11.26
-- [ ] Fotos Hinzufügen
+- [x] Fotos Hinzufügen
 - [x] Stats und Einfluss der Stats einfügen
 - [x] Design ändern
 - [x] Code optimieren
@@ -39,13 +39,19 @@
 
 ## 20.11.26
 - [x] Alle usage Items einfügen
-- [ ] Alle Geister einfügem
+- [x] Alle Geister einfügem
 - [x] Anfangen mit einem Hauptmenü
-- [ ] Boss Datenbank machen
+- [x] Boss Datenbank machen
 - Heute habe ich alle Usage Items in meine Excel Datei eingefügt und ein paar weitere comboBoxen. Dazu habe ich noch ein Hauptmenü gemacht und ein Favoriten Feature.
 
 - ## 27.11.26
-- [ ] Alle Geister einfügen
-- [ ] Boss Datenbank machen
+- [x] Alle Geister einfügen
+- [x] Boss Datenbank machen
 - [ ] QOF Features einfügen
-- [x] Hauptmenü überarbeiten 
+- [x] Hauptmenü überarbeiten
+- heute habe ich das Design der ComboBoxen und ListBoxen geändert dass es nicht mehr von geraden Linien abgegrenzt wird somndern wie einen flüssigen Übergang von Box zum Hintergrund. Dazu habe ich auch alle Bosse im Game in die Excel Datei eingefügt mit stärken und schwächen und kurzen Beschreibungen. Dazu habe ich alle Fotos der Items eingefügt.
+
+- ## 04.12.26
+- [ ] QOF Features einfügen
+- [ ] Erste paar hundert Zeilen Code ändern
+- [ ] Waffenverbesserungen einfügen
