@@ -169,32 +169,34 @@ namespace Elden_Ring
             listBox7.BackColor = Design.Feld;
 
             button1.Font = Design.Text;
-            button1.ForeColor = Design.Gold;
-            button1.BackColor = Design.Feld;
-            button1.FlatAppearance.BorderColor = Design.GoldDunkel;
-            button1.FlatAppearance.MouseOverBackColor = Design.KnopfMaus;
-            button1.FlatAppearance.MouseDownBackColor = Design.KnopfGedrueckt;
+            Design.MacheEldenKnopf(button1);
 
             button2.Font = Design.Text;
-            button2.ForeColor = Design.GoldHell;
-            button2.BackColor = Design.Feld;
-            button2.FlatAppearance.BorderColor = Design.GoldDunkel;
-            button2.FlatAppearance.MouseOverBackColor = Design.KnopfMaus;
-            button2.FlatAppearance.MouseDownBackColor = Design.KnopfGedrueckt;
+            Design.MacheEldenKnopf(button2);
 
             button3.Font = Design.Text;
-            button3.ForeColor = Design.GoldHell;
-            button3.BackColor = Design.Feld;
-            button3.FlatAppearance.BorderColor = Design.GoldDunkel;
-            button3.FlatAppearance.MouseOverBackColor = Design.KnopfMaus;
-            button3.FlatAppearance.MouseDownBackColor = Design.KnopfGedrueckt;
+            Design.MacheEldenKnopf(button3);
 
             button4.Font = Design.Text;
-            button4.ForeColor = Design.GoldHell;
-            button4.BackColor = Design.Feld;
-            button4.FlatAppearance.BorderColor = Design.GoldDunkel;
-            button4.FlatAppearance.MouseOverBackColor = Design.KnopfMaus;
-            button4.FlatAppearance.MouseDownBackColor = Design.KnopfGedrueckt;
+            Design.MacheEldenKnopf(button4);
+
+            Design.MacheEldenAuswahl(comboBox1);
+            Design.MacheEldenAuswahl(comboBox2);
+            Design.MacheEldenAuswahl(comboBox3);
+            Design.MacheEldenAuswahl(comboBox4);
+            Design.MacheEldenAuswahl(comboBox5);
+            Design.MacheEldenAuswahl(comboBox6);
+            Design.MacheEldenAuswahl(comboBox7);
+            Design.MacheEldenAuswahl(comboBox8);
+            Design.MacheEldenAuswahl(comboBox9);
+
+            Design.MacheEldenListe(listBox1);
+            Design.MacheEldenListe(listBox2);
+            Design.MacheEldenListe(listBox3);
+            Design.MacheEldenListe(listBox4);
+            Design.MacheEldenListe(listBox5);
+            Design.MacheEldenListe(listBox6);
+            Design.MacheEldenListe(listBox7);
 
             comboBox5.SelectedIndexChanged += comboBox5_SelectedIndexChanged;
             comboBox7.SelectedIndexChanged += comboBox7_SelectedIndexChanged;
@@ -240,6 +242,13 @@ namespace Elden_Ring
             numericUpDown6.Font = Design.Text;
             numericUpDown6.ForeColor = Design.GoldHell;
             numericUpDown6.BackColor = Design.Feld;
+
+            Design.MacheEldenZahlenfeld(numericUpDown1);
+            Design.MacheEldenZahlenfeld(numericUpDown2);
+            Design.MacheEldenZahlenfeld(numericUpDown3);
+            Design.MacheEldenZahlenfeld(numericUpDown4);
+            Design.MacheEldenZahlenfeld(numericUpDown5);
+            Design.MacheEldenZahlenfeld(numericUpDown6);
 
             numericUpDown1.ValueChanged += StatsGeaendert;
             numericUpDown2.ValueChanged += StatsGeaendert;
@@ -681,6 +690,14 @@ namespace Elden_Ring
                                 if (bezeichnung == "Kriegsasche")
                                     continue;
 
+                                if (bezeichnung == "Bild")
+                                {
+                                    if (!string.IsNullOrWhiteSpace(wert))
+                                        zielListBox.Items.Insert(0, "Bild: " + wert);
+
+                                    continue;
+                                }
+
                                 if (string.IsNullOrWhiteSpace(wert))
                                     wert = "Keine Angabe";
 
@@ -989,6 +1006,14 @@ namespace Elden_Ring
 
                             if (string.IsNullOrWhiteSpace(bezeichnung))
                                 continue;
+
+                            if (bezeichnung == "Bild")
+                            {
+                                if (!string.IsNullOrWhiteSpace(wert))
+                                    zielListBox.Items.Insert(0, "Bild: " + wert);
+
+                                continue;
+                            }
 
                             if (string.IsNullOrWhiteSpace(wert))
                                 wert = "Keine Angabe";
